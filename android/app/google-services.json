@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "345810929805",
+    "project_id": "elecnorcalculoflechas",
+    "storage_bucket": "elecnorcalculoflechas.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:345810929805:android:426180f3e146a878b43ac4",
+        "android_client_info": {
+          "package_name": "com.example.elecnorappflechas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBoWQ7KsHCM6bBF9G0KMMS9Tx6wilbt5Ac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
