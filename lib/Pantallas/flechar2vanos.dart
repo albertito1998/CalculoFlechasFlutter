@@ -119,11 +119,11 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
 
   // Fórmulas adaptadas de Java
   double calcularE(double F, double D, double C, double B, double A) {
-    final Benrad = om.aradianes(B);
-    final Aenrad = om.aradianes(A);
-    final OPTan = (1.0 / tan(Benrad)) - (1.0 / tan(Aenrad));
+    final benrad = om.aradianes(B);
+    final aenrad = om.aradianes(A);
+    final opTan = (1.0 / tan(benrad)) - (1.0 / tan(aenrad));
     final prim = 4.0 * ((D / C) - 1.0);
-    final seg = (D * OPTan) - (4.0 * F);
+    final seg = (D * opTan) - (4.0 * F);
     return sqrt((16.0 * F) - (prim * seg));
   }
 
@@ -132,9 +132,9 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
   }
 
   double calcularP(double A, double X, double C) {
-    final Aenrad = om.aradianes(A);
-    final RES1 = pow((1.0 / tan(Aenrad)) - (pow(X, 2.0) / C), -1.0);
-    return om.agrados(atan(RES1));
+    final aenrad = om.aradianes(A);
+    final res1 = pow((1.0 / tan(aenrad)) - (pow(X, 2.0) / C), -1.0);
+    return om.agrados(atan(res1));
   }
 
   void limpiar() {

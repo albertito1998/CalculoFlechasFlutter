@@ -1,52 +1,176 @@
-📱 High Voltage Line Sag Calculation App
+# 📱 AppFlechasFlutter - High Voltage Line Sag Calculation App
+
 🧠 R&D Project · Electrical Engineering · Flutter Multiplatform
-This project focuses on developing a multiplatform mobile application (Android, iOS, and Web) using Flutter, specialized in the calculation of cable sag (curvature) in high-voltage power lines.
-It is designed for use by electrical engineers and field technicians, enabling fast and accurate calculations both in the office and on-site, without requiring an internet connection.
 
-🎯 Project Objectives
-✅ Specialized Technical Application
-Develop an intuitive, efficient, and accessible Flutter app for real-time conductor sag calculations.
+[![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)](https://flutter.dev/)
+[![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)](https://dart.dev/)
+[![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black)](https://firebase.google.com/)
 
-✅ High Accuracy
-Implement advanced formulas, including the catenary equation, to ensure reliable results under real-world conditions.
+## 📋 Descripción
 
-✅ International Unit Support
-Allow users to work with either metric or imperial systems, with automatic conversion of inputs and outputs.
+Aplicación multiplataforma (Android, iOS, Web) desarrollada con Flutter especializada en el cálculo de flechas (sag) de cables en líneas de alta tensión. Diseñada para ingenieros eléctricos y técnicos de campo, permite cálculos rápidos y precisos tanto en oficina como in situ, sin requerir conexión a internet.
 
-✅ Efficient User Interface
-Design a clean, minimalist UI suitable for fieldwork environments.
+**Versión en Español**: Esta aplicación calcula flechas de cables en líneas eléctricas de alta tensión, considerando factores como peso del conductor, tensión, vano, inclinación y temperatura.
 
-✅ Full Mobility
-Enable offline use, eliminating the need for complex equipment or network access.
+## 🎯 Objetivos del Proyecto
 
-⚙️ Key Technical Features
-📐 Real-Time Unit Conversion
-Seamless switching between meters/feet and decimal/sexagesimal degrees with dynamic result updates.
+✅ **Aplicación Técnica Especializada**  
+Desarrollar una app Flutter intuitiva, eficiente y accesible para cálculos de flechas de conductores en tiempo real.
 
-📊 Advanced Sag Calculations
-Based on real conductor behavior models (weight, tension, span, inclination, temperature...).
+✅ **Alta Precisión**  
+Implementar fórmulas avanzadas, incluyendo la ecuación de la catenaria, para resultados confiables en condiciones reales.
 
-📏 Smart Angle Handling
-Supports both decimal and sexagesimal degrees, with integrated conversion tools.
+✅ **Soporte Multiunidad**  
+Permitir trabajo con sistemas métricos o imperiales, con conversión automática de entradas y salidas.
 
-📈 Clear and Actionable Results
-Structured and easy-to-interpret output, adapted to technical use cases.
+✅ **Interfaz Eficiente**  
+Diseñar una UI limpia y minimalista adecuada para entornos de trabajo de campo.
 
-📴 Offline Functionality
-Ideal for remote areas: all calculations are performed locally on the device.
+✅ **Movilidad Total**  
+Habilitar uso offline, eliminando la necesidad de equipos complejos o acceso a red.
 
-🧰 Technologies Used
-💙 Flutter – Cross-platform UI (Android, iOS, Web, Desktop)
-💻 Dart – Programming language
-🧮 Custom calculation engine based on structural and physical equations
-☁️ (Optional) Firebase for authentication or data storage if integrated
+## ⚙️ Características Técnicas Principales
 
-🚧 Project Status
-🔧 Under active development – MVP in progress
-Currently building the core calculation logic, UI integration, and field testing modules.
+📐 **Conversión de Unidades en Tiempo Real**  
+Cambio fluido entre metros/pies y grados decimales/sexagesimales con actualización dinámica de resultados.
 
-📌 Roadmap
-Flutter project base structure
+📊 **Cálculos Avanzados de Flechas**  
+Basados en modelos reales de comportamiento de conductores (peso, tensión, vano, inclinación, temperatura...).
+
+📏 **Manejo Inteligente de Ángulos**  
+Soporte para grados decimales y sexagesimales, con herramientas de conversión integradas.
+
+📈 **Resultados Claros y Accionables**  
+Salida estructurada y fácil de interpretar, adaptada a casos de uso técnicos.
+
+📴 **Funcionalidad Offline**  
+Ideal para áreas remotas: todos los cálculos se realizan localmente en el dispositivo.
+
+🛰️ **Integración GPS y Meteorológica**  
+Obtención automática de ubicación y datos climáticos para cálculos más precisos.
+
+🔐 **Autenticación Segura**  
+Sistema de login con Firebase (email/password, Google Sign-In).
+
+## 🧰 Tecnologías Utilizadas
+
+- **💙 Flutter** – UI multiplataforma (Android, iOS, Web, Desktop)
+- **💻 Dart** – Lenguaje de programación
+- **🧮 Motor de Cálculos Personalizado** – Basado en ecuaciones estructurales y físicas
+- **☁️ Firebase** – Autenticación y potencial almacenamiento de datos
+- **📍 Geolocator** – Obtención de ubicación GPS
+- **🌤️ Open-Meteo API** – Datos meteorológicos
+- **🔒 flutter_dotenv** – Gestión segura de variables de entorno
+
+## 🚀 Instalación y Uso
+
+### Prerrequisitos
+- Flutter SDK (versión 3.0+)
+- Dart SDK
+- Android Studio / Xcode para desarrollo nativo
+- Cuenta Firebase (opcional para autenticación)
+
+### Configuración
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/albertito1998/CalculoFlechasFlutter.git
+   cd CalculoFlechasFlutter
+   ```
+
+2. **Instala dependencias**:
+   ```bash
+   flutter pub get
+   ```
+
+3. **Configura Firebase (opcional)**:
+   - Crea un proyecto en [Firebase Console](https://console.firebase.google.com/)
+   - Copia las claves API al archivo `.env` (ver `.env.example`)
+   - Ejecuta `flutterfire configure`
+
+4. **Ejecuta la aplicación**:
+   ```bash
+   flutter run
+   ```
+
+## 📁 Estructura del Proyecto
+
+```
+lib/
+├── main.dart                 # Punto de entrada de la app
+├── firebase_options.dart     # Configuración Firebase (variables de entorno)
+├── theme.dart                # Tema personalizado Elecnor
+├── terms.dart                # Página de términos y condiciones
+├── Login/                    # Módulo de autenticación
+│   ├── login.dart
+│   ├── auth.dart
+│   ├── auth_provider.dart
+│   └── validators.dart
+├── Pantallas/                # Páginas principales
+│   ├── menu.dart
+│   ├── calcular_altura.dart
+│   ├── calcularLongitud.dart
+│   ├── flechar1vano.dart
+│   ├── flechar2vanos.dart
+│   ├── comprobarFlecha1Vano.dart
+│   ├── comprobarFlecha2Vanos.dart
+│   ├── flecha_estacion_libre.dart
+│   └── tolerancias.dart
+├── BBDD/                     # Base de datos
+│   └── crud.dart
+└── utils/                    # Utilidades
+    └── operaciones_matematicas.dart
+```
+
+## 🧪 Testing
+
+```bash
+flutter test
+```
+
+## 📦 Build
+
+### Android APK
+```bash
+flutter build apk --release
+```
+
+### iOS
+```bash
+flutter build ios --release
+```
+
+### Web
+```bash
+flutter build web --release
+```
+
+## 🤝 Contribución
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+Este proyecto está bajo la Licencia MIT - ver el archivo [LICENSE](LICENSE) para más detalles.
+
+## 👥 Autor
+
+**Alberto García** - *Desarrollo Inicial* - [albertito1998](https://github.com/albertito1998)
+
+## 🙏 Agradecimientos
+
+- Elecnor Proyectos y Servicios por el soporte del proyecto
+- Comunidad Flutter por las herramientas y documentación
+- Open-Meteo por la API de datos meteorológicos
+
+---
+
+**Estado del Proyecto**: ✅ MVP Completo - Funcionalidades principales implementadas y probadas.
+
+**Última Actualización**: Diciembre 2025
 
 Parameter input interface
 

@@ -112,12 +112,12 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
       double H;
       if (E >= 100 || C >= 100) {
         if (E < 100 && C > 100) {
-          H = CalculoH2(J, E, C);
+          H = calculoH2(J, E, C);
         } else {
-          H = CalculoH3(J, E, C);
+          H = calculoH3(J, E, C);
         }
       } else {
-        H = CalculoH1(J, E, C);
+        H = calculoH1(J, E, C);
       }
 
       double L = J + K;
@@ -149,11 +149,11 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
     }
   }
 
-  double CalculoH1(double J, double E, double C) => J * om.calculotang1(E, C);
+  double calculoH1(double J, double E, double C) => J * om.calculotang1(E, C);
 
-  double CalculoH2(double J, double E, double C) => J * om.calculotang2(E, C);
+  double calculoH2(double J, double E, double C) => J * om.calculotang2(E, C);
 
-  double CalculoH3(double J, double E, double C) => J * om.calculotang3(E, C);
+  double calculoH3(double J, double E, double C) => J * om.calculotang3(E, C);
 
   double flechareal1(double G, double C, double L, double H) {
     final tg = om.calculotang1(G, C);

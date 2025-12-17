@@ -64,7 +64,7 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
         radiacion = "${datos['hourly']['solar_radiation'][0]} W/m²";
       });
     } catch (e) {
-      print("Error al obtener ubicación o datos meteo: $e");
+      // Error al obtener ubicación o datos meteorológicos
     }
   }
 
@@ -86,18 +86,14 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
     }
 
     try {
-      final Ha = double.parse(_altura1.text);
-      final Hb = double.parse(_altura2.text);
-      final Da = double.parse(_distancia1.text);
-      final Db = double.parse(_distancia2.text);
+      final ha = double.parse(_altura1.text);
+      final hb = double.parse(_altura2.text);
+      final da = double.parse(_distancia1.text);
+      final db = double.parse(_distancia2.text);
       final flecha = double.parse(_flecha.text);
-      final grados = double.parse(_anguloGrados.text);
-      final minutos = double.parse(_anguloMinutos.text);
-      final segundos = double.parse(_anguloSegundos.text);
-      final Alfa = grados + (minutos / 60.0) + (segundos / 3600.0);
 
       final theta = 90 -
-          atan(((Ha + Hb) / 2 - flecha) / sqrt(pow(Da, 2) + pow(Db, 2))) *
+          atan(((ha + hb) / 2 - flecha) / sqrt(pow(da, 2) + pow(db, 2))) *
               180 /
               pi;
 

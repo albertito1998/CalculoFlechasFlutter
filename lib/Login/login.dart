@@ -66,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                 width: maxFormWidth,
                 padding: const EdgeInsets.all(24),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.90),
+                  color: Colors.white.withValues(alpha: 0.90),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: const [
                     BoxShadow(

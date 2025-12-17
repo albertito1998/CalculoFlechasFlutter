@@ -3,25 +3,25 @@ import 'dart:math';
 class OperacionesMatematicas {
   /// Cálculo de tangentes para el caso normal
   double calculotang1(double G, double C) {
-    final double Genrad = aradianes(G);
-    final double Cenrad = aradianes(C);
-    final double tg1 = tan(Genrad);
-    final double tg2 = tan(Cenrad);
+    final double genrad = aradianes(G);
+    final double cenrad = aradianes(C);
+    final double tg1 = tan(genrad);
+    final double tg2 = tan(cenrad);
     return (1 / tg1) - (1 / tg2);
   }
 
   /// Cálculo de tangentes para el caso en el que uno de los ángulos supera 100 gon
   double calculotang2(double G, double C) {
-    final double Genrad = aradianes(G);
-    final double Cenrad = aradianes(C);
-    return tan(Cenrad - aradianes(100)) - tan(Genrad - aradianes(100));
+    final double genrad = aradianes(G);
+    final double cenrad = aradianes(C);
+    return tan(cenrad - aradianes(100)) - tan(genrad - aradianes(100));
   }
 
   /// Cálculo de tangentes para el caso de ángulo mayor en el segundo tramo
   double calculotang3(double G, double C) {
-    final double Genrad = aradianes(G);
-    final double Cenrad = aradianes(C);
-    return (1 / tan(Genrad)) + tan(Cenrad - aradianes(100));
+    final double genrad = aradianes(G);
+    final double cenrad = aradianes(C);
+    return (1 / tan(genrad)) + tan(cenrad - aradianes(100));
   }
 
   /// Cálculo de la raíz en el proceso de obtención de la flecha real

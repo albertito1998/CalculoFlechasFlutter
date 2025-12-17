@@ -1,11 +1,12 @@
 import 'package:elecnorappflechas/Pantallas/tolerancias.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Importación de cada pantalla (revisadas y renombradas correctamente)
-import 'calcularAltura.dart';
-import 'calcularLongitud.dart';
-import 'comprobarFlecha1Vano.dart';
-import 'comprobarFlecha2Vanos.dart';
+import 'calcular_altura.dart';
+import 'calcular_longitud.dart';
+import 'comprobar_flecha_1_vano.dart';
+import 'comprobar_flecha_2_vanos.dart';
 import 'flechar1vano.dart';
 import 'flechar2vanos.dart';
 import 'flecha_estacion_libre.dart'; // Nueva importación
@@ -49,34 +50,37 @@ class _MenuPageState extends State<MenuPage> {
   }
 
   // Confirmación al pulsar botón atrás (salir de la app)
-  Future<bool> _onWillPop() async {
-    return await showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text('¿Salir de la aplicación?'),
-            content: const Text('¿Estás seguro de que deseas cerrar la app?'),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('No'),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Sí'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
+  void _onPopInvokedWithResult(bool didPop, Object? result) async {
+    if (!didPop) {
+      final shouldPop = await showDialog<bool>(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: const Text('¿Salir de la aplicación?'),
+              content: const Text('¿Estás seguro de que deseas cerrar la app?'),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  child: const Text('No'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text('Sí'),
+                ),
+              ],
+            ),
+          ) ??
+          false;
+      if (shouldPop) {
+        SystemNavigator.pop();
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final buttonWidth = screenWidth * 0.7;
-
-    return WillPopScope(
-      onWillPop: _onWillPop,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: _onPopInvokedWithResult,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('ELECNOR PROYECTOS Y SERVICIOS'),

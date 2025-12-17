@@ -129,12 +129,12 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
       final double V = double.parse(longVanoController.text);
       final double F = double.parse(flechaTeorController.text);
 
-      final double S = CalculoS(F, H, V);
-      double ang = CalculoArcTan(G, S);
+      final double S = calculoS(F, H, V);
+      double ang = calculoArcTan(G, S);
 
       // Igual que Android: si el ángulo sale negativo → usar CalculoC
       if (ang < 0.0) {
-        ang = CalculoC(S, G);
+        ang = calculoC(S, G);
       }
 
       setState(() {
@@ -149,20 +149,20 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
   //    FUNCIONES PORTADAS 1:1 DEL ANDROID (JAVA → DART)
   // ------------------------------------------------------------
 
-  double CalculoS(double F, double H, double V) {
+  double calculoS(double F, double H, double V) {
     return pow((sqrt(F) * 2.0) - sqrt(H), 2.0) / V;
   }
 
-  double CalculoArcTan(double G, double S) {
-    final Genrad = om.aradianes(G); // ✔ centesimales → radianes
-    final op1 = 1.0 / ((1.0 / tan(Genrad)) - S);
+  double calculoArcTan(double G, double S) {
+    final genrad = om.aradianes(G); // ✔ centesimales → radianes
+    final op1 = 1.0 / ((1.0 / tan(genrad)) - S);
     final res = atan(op1);
     return om.agrados(res); // ✔ radianes → centesimales
   }
 
-  double CalculoC(double S, double G) {
-    final Genrad = om.aradianes(G - 100.0);
-    final op1 = S + tan(Genrad);
+  double calculoC(double S, double G) {
+    final genrad = om.aradianes(G - 100.0);
+    final op1 = S + tan(genrad);
     final res = atan(op1);
     return 100.0 + om.agrados(res);
   }
