@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Tipos de formulario permitidos
 enum FormType { login, register, forgot }
@@ -7,7 +8,7 @@ enum FormType { login, register, forgot }
 /// Verifica si un email termina en "@elecnor.[dominio]"
 bool isValidEmail(String email) {
   final emailRegExp = RegExp(
-    r'^[\w\.-]+@elecnor\.[a-zA-Z]{2,}$', // ejemplo: nombre@elecnor.com
+    dotenv.env['REGEX_EMAIL']!, // Regex cargada desde .env
   );
   return emailRegExp.hasMatch(email.trim());
 }
