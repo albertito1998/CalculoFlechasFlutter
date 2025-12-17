@@ -3,6 +3,7 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///
@@ -43,39 +44,39 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCQ2hXeEFDs6l4IiGSo5TYHatiWkSiOfgY',
-    appId: '1:345810929805:web:dfbc3de193b0021db43ac4',
-    messagingSenderId: '345810929805',
-    projectId: 'elecnorcalculoflechas',
-    authDomain: 'elecnorcalculoflechas.firebaseapp.com',
-    storageBucket: 'elecnorcalculoflechas.appspot.com',
-    measurementId: 'G-X5G3T2H47B',
+  static FirebaseOptions get web => FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY_WEB']!,
+    appId: dotenv.env['FIREBASE_APP_ID_WEB']!,
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
+    authDomain: dotenv.env['FIREBASE_AUTH_DOMAIN']!,
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET']!,
+    measurementId: dotenv.env['FIREBASE_MEASUREMENT_ID']!,
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBoWQ7KsHCM6bBF9G0KMMS9Tx6wilbt5Ac',
-    appId: '1:345810929805:android:426180f3e146a878b43ac4',
-    messagingSenderId: '345810929805',
-    projectId: 'elecnorcalculoflechas',
-    storageBucket: 'elecnorcalculoflechas.appspot.com',
+  static FirebaseOptions get android => FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY_ANDROID']!,
+    appId: dotenv.env['FIREBASE_APP_ID_ANDROID']!,
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET']!,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCsc3Eb9LBtWm_fRJ6VhmBGjQMpcKVVHs8',
-    appId: '1:345810929805:ios:09b7c875f924cefdb43ac4',
-    messagingSenderId: '345810929805',
-    projectId: 'elecnorcalculoflechas',
-    storageBucket: 'elecnorcalculoflechas.appspot.com',
-    iosBundleId: 'com.example.elecnorappflechas',
+  static FirebaseOptions get ios => FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY_IOS']!,
+    appId: dotenv.env['FIREBASE_APP_ID_IOS']!,
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET']!,
+    iosBundleId: dotenv.env['FIREBASE_IOS_BUNDLE_ID']!,
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCsc3Eb9LBtWm_fRJ6VhmBGjQMpcKVVHs8',
-    appId: '1:345810929805:ios:d8a0f558e4205756b43ac4',
-    messagingSenderId: '345810929805',
-    projectId: 'elecnorcalculoflechas',
-    storageBucket: 'elecnorcalculoflechas.appspot.com',
-    iosBundleId: 'com.example.elecnorappflechas.RunnerTests',
+  static FirebaseOptions get macos => FirebaseOptions(
+    apiKey: dotenv.env['FIREBASE_API_KEY_IOS']!, // macOS usa la misma API key que iOS
+    appId: dotenv.env['FIREBASE_APP_ID_MACOS']!,
+    messagingSenderId: dotenv.env['FIREBASE_MESSAGING_SENDER_ID']!,
+    projectId: dotenv.env['FIREBASE_PROJECT_ID']!,
+    storageBucket: dotenv.env['FIREBASE_STORAGE_BUCKET']!,
+    iosBundleId: dotenv.env['FIREBASE_MACOS_BUNDLE_ID']!,
   );
 }
