@@ -13,6 +13,7 @@ import '../../../core/constants/app_constants.dart';
 
 // Importaciones de UI
 import '../terms/terms_page.dart';
+import '../../widgets/widgets.dart';
 
 // Importaciones de utilidades
 import '../../../utils/validators/email_validator.dart';
@@ -183,72 +184,99 @@ class _LoginPageState extends State<LoginPage> {
         vertical: 80,
       ),
       child: Center(
-        child: Container(
-          width: maxFormWidth,
-          padding: const EdgeInsets.all(AppConstants.largePadding),
-          decoration: BoxDecoration(
-            color: Colors.white.withValues(
-              alpha: AppConstants.formBackgroundOpacity,
-            ),
-            borderRadius: BorderRadius.circular(
-              AppConstants.standardBorderRadius,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.black26,
-                blurRadius: 10,
-                offset: Offset(0, AppConstants.standardElevation),
+        child: TweenAnimationBuilder<double>(
+          tween: Tween(begin: 0.0, end: 1.0),
+          duration: const Duration(milliseconds: 600),
+          curve: Curves.easeOutCubic,
+          builder: (context, value, child) {
+            return Transform.scale(
+              scale: 0.8 + (0.2 * value),
+              child: Opacity(
+                opacity: value,
+                child: child,
               ),
-            ],
-          ),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                // Título de bienvenida
-                Text(
-                  AppMessages.welcomeMessage,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: AppConstants.largePadding),
-
-                // Campo de email
-                TextFormField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(
-                    labelText: AppMessages.emailLabel,
-                    hintText: AppMessages.emailHint,
-                    prefixIcon: Icon(Icons.email),
-                  ),
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  validator: EmailValidator.validate,
-                  onFieldSubmitted: (_) => _submit(),
-                  enabled: !_isLoading,
-                ),
-                const SizedBox(height: AppConstants.largePadding),
-
-                // Botón de acceso
-                SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: _isLoading ? null : _submit,
-                    child: _isLoading
-                        ? const SizedBox(
-                            height: 20,
-                            width: 20,
-                            child: CircularProgressIndicator(
-                              strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                Colors.white,
-                              ),
-                            ),
-                          )
-                        : const Text(AppMessages.loginButton),
-                  ),
+            );
+          },
+          child: Container(
+            width: maxFormWidth,
+            padding: const EdgeInsets.all(AppConstants.largePadding),
+            decoration: BoxDecoration(
+              color: Colors.white.withValues(
+                alpha: 0.95,
+              ),
+              borderRadius: BorderRadius.circular(24),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.1),
+                  blurRadius: 20,
+                  offset: const Offset(0, 10),
+                  spreadRadius: 5,
                 ),
               ],
+            ),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Logo o icono
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      Icons.electric_bolt_rounded,
+                      size: 48,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+
+                  // Título de bienvenida
+                  Text(
+                    AppMessages.welcomeMessage,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Ingresa con tu correo corporativo',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurface
+                              .withValues(alpha: 0.6),
+                        ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: AppConstants.largePadding),
+
+                  // Campo de email moderno
+                  ModernTextField(
+                    controller: _emailController,
+                    label: AppMessages.emailLabel,
+                    hint: AppMessages.emailHint,
+                    prefixIcon: Icons.email_outlined,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: EmailValidator.validate,
+                    enabled: !_isLoading,
+                  ),
+                  const SizedBox(height: AppConstants.largePadding),
+
+                  // Botón de acceso moderno
+                  PrimaryButton(
+                    text: AppMessages.loginButton,
+                    onPressed: _submit,
+                    icon: Icons.login_rounded,
+                    isLoading: _isLoading,
+                  ),
+                ],
+              ),
             ),
           ),
         ),

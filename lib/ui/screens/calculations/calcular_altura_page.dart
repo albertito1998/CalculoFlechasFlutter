@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:elecnorappflechas/core/constants/app_constants.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
+import '../../widgets/widgets.dart';
 
 /// Pantalla para calcular la altura de un cable entre dos puntos.
 ///
@@ -70,64 +71,78 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppConstants.standardPadding),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Introduzca los siguientes datos:',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            // Sección de información
+            const InfoCard(
+              title: '¿Qué calcula esta herramienta?',
+              content:
+                  'Calcula la altura de un cable entre dos puntos usando los ángulos superior e inferior y la longitud del vano.',
+              icon: Icons.info_outline,
             ),
-            const SizedBox(height: 16),
-
-            // Campos de entrada
-            _buildTextField(
-              label: 'Ángulo parte superior (°)',
-              controller: _txtAngSupController,
-            ),
-            _buildTextField(
-              label: 'Longitud del vano (m)',
-              controller: _txtLongVanoController,
-            ),
-            _buildTextField(
-              label: 'Ángulo parte inferior (°)',
-              controller: _txtAngInfController,
-            ),
-
             const SizedBox(height: 24),
 
-            // Botón calcular
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _calcularAltura,
-                child: const Text('Calcular'),
-              ),
+            // Título de sección
+            Text(
+              'Datos de entrada',
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
             ),
-
             const SizedBox(height: 16),
 
-            // Resultado
+            // Campos de entrada modernos
+            NumericTextField(
+              label: 'Ángulo parte superior',
+              controller: _txtAngSupController,
+              suffix: '°',
+              prefixIcon: Icons.arrow_upward,
+            ),
+            const SizedBox(height: 16),
+
+            NumericTextField(
+              label: 'Longitud del vano',
+              controller: _txtLongVanoController,
+              suffix: 'm',
+              prefixIcon: Icons.straighten,
+            ),
+            const SizedBox(height: 16),
+
+            NumericTextField(
+              label: 'Ángulo parte inferior',
+              controller: _txtAngInfController,
+              suffix: '°',
+              prefixIcon: Icons.arrow_downward,
+            ),
+            const SizedBox(height: 24),
+
+            // Botón calcular moderno
+            PrimaryButton(
+              text: 'Calcular Altura',
+              icon: Icons.calculate_rounded,
+              onPressed: _calcularAltura,
+            ),
+            const SizedBox(height: 24),
+
+            // Resultado con animación
             if (_result.isNotEmpty)
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Altura Calculada:',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _result,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: Color(0xFFFF6B35),
-                        ),
-                      ),
-                    ],
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutBack,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: value,
+                    child: Opacity(
+                      opacity: value,
+                      child: child,
+                    ),
+                  );
+                },
+                child: ResultCard(
+                  title: 'Altura Calculada',
+                  value: _result,
+                  icon: Icons.height,
                 ),
               ),
 
@@ -135,50 +150,20 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
             if (_errorMessage.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 16),
-                child: Card(
-                  color: Colors.red.shade50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error_outline, color: Colors.red.shade700),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            _errorMessage,
-                            style: TextStyle(color: Colors.red.shade700),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 300),
+                  builder: (context, value, child) {
+                    return Opacity(
+                      opacity: value,
+                      child: child,
+                    );
+                  },
+                  child: ErrorCard(message: _errorMessage),
                 ),
               ),
           ],
         ),
-      ),
-    );
-  }
-
-  // ========================================================================
-  // WIDGETS AUXILIARES
-  // ========================================================================
-
-  /// Construye un campo de texto numérico con estilo consistente.
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(Icons.straighten),
-        ),
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
     );
   }

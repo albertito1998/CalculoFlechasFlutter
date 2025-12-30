@@ -10,6 +10,9 @@ import 'package:flutter/services.dart';
 // Importaciones de configuración
 import '../../../core/constants/app_constants.dart';
 
+// Importaciones de UI
+import '../../widgets/widgets.dart';
+
 // Importaciones de pantallas (a través de exports)
 import '../calculations/calcular_altura_page.dart';
 import '../calculations/calcular_longitud_page.dart';
@@ -250,16 +253,106 @@ class _MenuPageState extends State<MenuPage> {
     );
   }
 
-  /// Construye el cuerpo de la pantalla con el fondo y la lista de opciones
+  /// Construye el cuerpo de la pantalla con el fondo y el grid de opciones
   Widget _buildBody() {
     return Container(
       decoration: _buildBackgroundDecoration(),
       child: SafeArea(
-        child: Center(
-          child: _buildMenuList(),
+        child: CustomScrollView(
+          slivers: [
+            // Header con título y descripción
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Column(
+                  children: [
+                    Text(
+                      'Herramientas de Cálculo',
+                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 8),
+                    Text(
+                      'Selecciona la herramienta que necesitas',
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onSurface
+                                .withValues(alpha: 0.7),
+                          ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Grid de botones
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverGrid(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: _getCrossAxisCount(context),
+                  childAspectRatio: 1,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                ),
+                delegate: SliverChildBuilderDelegate(
+                  (context, index) {
+                    final item = _menuItems[index];
+                    return TweenAnimationBuilder<double>(
+                      tween: Tween(begin: 0.0, end: 1.0),
+                      duration: Duration(milliseconds: 300 + (index * 50)),
+                      curve: Curves.easeOutCubic,
+                      builder: (context, value, child) {
+                        return Transform.scale(
+                          scale: 0.8 + (0.2 * value),
+                          child: Opacity(
+                            opacity: value,
+                            child: child,
+                          ),
+                        );
+                      },
+                      child: MenuButton(
+                        label: item.label,
+                        icon: item.icon,
+                        onPressed: () => _navigateToScreen(item),
+                      ),
+                    );
+                  },
+                  childCount: _menuItems.length,
+                ),
+              ),
+            ),
+
+            // Botón de cerrar sesión al final
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: SecondaryButton(
+                  text: 'Cerrar Sesión',
+                  icon: Icons.logout_rounded,
+                  onPressed: _showLogoutDialog,
+                  fullWidth: true,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
+  }
+
+  /// Calcula el número de columnas según el ancho de pantalla
+  int _getCrossAxisCount(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    if (width > 1200) return 4;
+    if (width > 800) return 3;
+    if (width > 600) return 2;
+    return 2;
   }
 
   /// Construye la decoración del fondo con la imagen corporativa
@@ -269,97 +362,6 @@ class _MenuPageState extends State<MenuPage> {
         image: AssetImage(AppConstants.backgroundImagePath),
         fit: BoxFit.cover,
         opacity: 0.3, // Reduce la opacidad para mejor legibilidad
-      ),
-    );
-  }
-
-  /// Construye la lista scrolleable de opciones del menú
-  Widget _buildMenuList() {
-    return Padding(
-      padding: const EdgeInsets.all(AppConstants.standardPadding),
-      child: ListView(
-        shrinkWrap: true,
-        children: [
-          // Botones de las opciones del menú
-          ..._menuItems.map(
-            (item) => _MenuButton(
-              label: item.label,
-              icon: item.icon,
-              onPressed: () => _navigateToScreen(item),
-            ),
-          ),
-
-          // Espacio entre las opciones y el botón de salir
-          const SizedBox(height: AppConstants.standardPadding),
-
-          // Botón de cerrar sesión
-          _MenuButton(
-            label: 'Salir',
-            icon: Icons.exit_to_app,
-            onPressed: _showLogoutDialog,
-            isDestructive: true,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Widget personalizado para los botones del menú
-///
-/// Proporciona un estilo consistente para todos los botones del menú
-/// con soporte para iconos y diseño responsivo.
-class _MenuButton extends StatelessWidget {
-  /// Texto del botón
-  final String label;
-
-  /// Icono del botón
-  final IconData icon;
-
-  /// Callback cuando se presiona el botón
-  final VoidCallback onPressed;
-
-  /// Indica si es una acción destructiva (como salir o eliminar)
-  final bool isDestructive;
-
-  const _MenuButton({
-    required this.label,
-    required this.icon,
-    required this.onPressed,
-    this.isDestructive = false,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final buttonWidth = screenWidth < AppConstants.largeScreenBreakpoint
-        ? screenWidth * 0.85
-        : AppConstants.maxFormWidth;
-
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        vertical: AppConstants.smallPadding,
-      ),
-      width: buttonWidth,
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(
-            vertical: AppConstants.standardPadding,
-          ),
-          backgroundColor: isDestructive
-              ? Colors.red.shade600
-              : Theme.of(context).colorScheme.primary,
-          foregroundColor: Colors.white,
-        ),
-        icon: Icon(icon),
-        label: Text(
-          label,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        onPressed: onPressed,
       ),
     );
   }
