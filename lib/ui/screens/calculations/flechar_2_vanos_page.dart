@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:elecnorappflechas/core/constants/app_constants.dart';
-import 'package:elecnorappflechas/theme.dart';
+import 'package:elecnorappflechas/ui/theme/app_theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
 
 /// Pantalla para calcular el ángulo necesario para flechar el segundo vano.
