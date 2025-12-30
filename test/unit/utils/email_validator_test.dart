@@ -15,28 +15,28 @@ void main() {
         isNull,
       );
     });
-    
+
     test('valida correctamente email de Elecnor con .es', () {
       expect(
         EmailValidator.validate('usuario@elecnor.es'),
         isNull,
       );
     });
-    
+
     test('valida email con puntos en el nombre', () {
       expect(
         EmailValidator.validate('nombre.apellido@elecnor.com'),
         isNull,
       );
     });
-    
+
     test('valida email con números', () {
       expect(
         EmailValidator.validate('usuario123@elecnor.com'),
         isNull,
       );
     });
-    
+
     test('valida email con guiones', () {
       expect(
         EmailValidator.validate('usuario-test@elecnor.com'),
@@ -44,11 +44,11 @@ void main() {
       );
     });
   });
-  
+
   // Nota: Los tests de casos inválidos están comentados porque
   // el EmailValidator usa Toast que requiere contexto de BuildContext
   // Para testear estos casos se necesitaría un widget test o mockear Toast
-  
+
   /*
   group('EmailValidator - Casos Inválidos', () {
     test('rechaza email sin dominio Elecnor', () {
@@ -77,12 +77,12 @@ void main() {
     });
   });
   */
-  
+
   group('PasswordValidator - Estructura Básica', () {
     test('PasswordValidator existe y es accesible', () {
       expect(PasswordValidator, isNotNull);
     });
-    
+
     // Nota: Tests de PasswordValidator también comentados por problema de Toast
     /*
     test('valida contraseña segura típica', () {

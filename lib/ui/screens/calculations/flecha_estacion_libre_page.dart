@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:elecnorappflechas/core/constants/app_constants.dart';
-import 'package:elecnorappflechas/ui/theme/app_theme.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:elecnorappflechas/ui/widgets/widgets.dart';
 
 /// Pantalla para calcular la flecha desde una estación libre.
 ///
@@ -94,6 +94,13 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const InfoCard(
+              title: 'Flecha desde Estación Libre',
+              content:
+                  'Calcula el ángulo θ para flechado desde una estación libre usando las alturas de las torres y distancias.',
+              icon: Icons.location_searching,
+            ),
+            const SizedBox(height: 24),
             const Text(
               'Parámetros de entrada',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -101,12 +108,32 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
             const SizedBox(height: 16),
 
             // Campos de entrada
-            _buildTextField('Altura útil Torre 1 (m)', _altura1),
-            _buildTextField('Altura útil Torre 2 (m)', _altura2),
-            _buildTextField('Distancia Torre 1 (m)', _distancia1),
-            _buildTextField('Distancia Torre 2 (m)', _distancia2),
+            NumericTextField(
+              label: 'Altura útil Torre 1',
+              controller: _altura1,
+              suffix: 'm',
+              prefixIcon: Icons.height,
+            ),
+            NumericTextField(
+              label: 'Altura útil Torre 2',
+              controller: _altura2,
+              suffix: 'm',
+              prefixIcon: Icons.height,
+            ),
+            NumericTextField(
+              label: 'Distancia Torre 1',
+              controller: _distancia1,
+              suffix: 'm',
+              prefixIcon: Icons.straighten,
+            ),
+            NumericTextField(
+              label: 'Distancia Torre 2',
+              controller: _distancia2,
+              suffix: 'm',
+              prefixIcon: Icons.straighten,
+            ),
 
-            // Ángulo en tres campos
+            const SizedBox(height: 16),
             const Text(
               'Ángulo medido:',
               style: TextStyle(fontWeight: FontWeight.w600),
@@ -115,54 +142,69 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
             Row(
               children: [
                 Expanded(
-                    child: _buildTextField('Grados', _anguloGrados,
-                        compact: true)),
+                  child: NumericTextField(
+                    label: 'Grados',
+                    controller: _anguloGrados,
+                    prefixIcon: null,
+                  ),
+                ),
                 const SizedBox(width: 6),
                 Expanded(
-                    child: _buildTextField('Minutos', _anguloMinutos,
-                        compact: true)),
+                  child: NumericTextField(
+                    label: 'Minutos',
+                    controller: _anguloMinutos,
+                    prefixIcon: null,
+                  ),
+                ),
                 const SizedBox(width: 6),
                 Expanded(
-                    child: _buildTextField('Segundos', _anguloSegundos,
-                        compact: true)),
+                  child: NumericTextField(
+                    label: 'Segundos',
+                    controller: _anguloSegundos,
+                    prefixIcon: null,
+                  ),
+                ),
               ],
             ),
 
-            _buildTextField('Flecha (m)', _flecha),
+            const SizedBox(height: 16),
+            NumericTextField(
+              label: 'Flecha',
+              controller: _flecha,
+              suffix: 'm',
+              prefixIcon: Icons.show_chart,
+            ),
 
             const SizedBox(height: 24),
 
             // Botón comprobar
-            FilledButton(
+            PrimaryButton(
+              text: 'Comprobar',
               onPressed: _comprobarDatos,
-              child: const Text('Comprobar'),
+              icon: Icons.calculate,
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
 
             // Resultado
             if (_resultadoTheta.isNotEmpty)
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Resultado θ (flecha topográfica):',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _resultadoTheta,
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.secondaryOrange,
-                        ),
-                      ),
-                    ],
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutBack,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: 0.8 + (0.2 * value),
+                    child: Opacity(
+                      opacity: value,
+                      child: child,
+                    ),
+                  );
+                },
+                child: ResultCard(
+                  title: 'Resultado θ (flecha topográfica)',
+                  value: _resultadoTheta,
+                  icon: Icons.architecture,
                 ),
               ),
 
@@ -175,7 +217,7 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
             ),
             const SizedBox(height: 8),
 
-            Card(
+            ModernCard(
               child: Column(
                 children: [
                   _buildInfoTile('Ubicación', _ubicacion),
@@ -195,23 +237,6 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // WIDGETS AUXILIARES
   // ========================================================================
-
-  /// Construye un campo de texto numérico con estilo consistente.
-  Widget _buildTextField(String label, TextEditingController controller,
-      {bool compact = false}) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: compact ? 0 : 12),
-      child: TextField(
-        controller: controller,
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          prefixIcon: compact ? null : const Icon(Icons.straighten),
-        ),
-      ),
-    );
-  }
 
   /// Construye una fila de información con título y valor.
   Widget _buildInfoTile(String label, String value) {

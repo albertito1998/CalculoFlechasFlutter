@@ -1,8 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:elecnorappflechas/core/constants/app_constants.dart';
-import 'package:elecnorappflechas/ui/theme/app_theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
+import 'package:elecnorappflechas/ui/widgets/widgets.dart';
 
 /// Pantalla para calcular el ángulo necesario para flechar un vano.
 ///
@@ -74,129 +74,105 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const InfoCard(
+              title: 'Flechar 1 Vano',
+              content:
+                  'Calcula el ángulo necesario para flechar correctamente el vano usando el taquímetro.',
+              icon: Icons.architecture,
+            ),
+            const SizedBox(height: 24),
             const Text(
-              'Introduce los siguientes datos:',
+              'Parámetros de entrada',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
 
             // Campos de entrada
-            _buildTextField(
-              label: 'Distancia taquímetro (m)',
+            NumericTextField(
+              label: 'Distancia taquímetro',
               controller: _distController,
+              suffix: 'm',
+              prefixIcon: Icons.straighten,
             ),
-            _buildTextField(
-              label: 'Ángulo en grapa (°)',
+            NumericTextField(
+              label: 'Ángulo en grapa',
               controller: _angGrapaController,
+              suffix: '°',
+              prefixIcon: Icons.architecture,
             ),
-            _buildTextField(
-              label: 'Longitud del vano (m)',
+            NumericTextField(
+              label: 'Longitud del vano',
               controller: _longVanoController,
+              suffix: 'm',
+              prefixIcon: Icons.linear_scale,
             ),
-            _buildTextField(
-              label: 'Flecha teórica (m)',
+            NumericTextField(
+              label: 'Flecha teórica',
               controller: _flechaTeorController,
+              suffix: 'm',
+              prefixIcon: Icons.show_chart,
             ),
 
             const SizedBox(height: 24),
 
             // Botón calcular
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _calcularFlecha1Vano,
-                child: const Text('Calcular'),
-              ),
+            PrimaryButton(
+              text: 'Calcular',
+              onPressed: _calcularFlecha1Vano,
+              icon: Icons.calculate,
             ),
 
             const SizedBox(height: 16),
 
             // Botón limpiar
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: _limpiarCampos,
-                icon: const Icon(Icons.clear),
-                label: const Text('Vaciar'),
-              ),
+            SecondaryButton(
+              text: 'Vaciar',
+              onPressed: _limpiarCampos,
+              icon: Icons.clear,
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
 
-            // Resultado
+            // Resultado con animación
             if (_resultado.isNotEmpty)
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Ángulo para flechar:',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _resultado,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: AppTheme.secondaryOrange,
-                        ),
-                      ),
-                    ],
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutBack,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: 0.8 + (0.2 * value),
+                    child: Opacity(
+                      opacity: value,
+                      child: child,
+                    ),
+                  );
+                },
+                child: ResultCard(
+                  title: 'Ángulo para flechar',
+                  value: _resultado,
+                  icon: Icons.architecture,
                 ),
               ),
 
             // Mensaje de error
             if (_msgError.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Card(
-                  color: Colors.red.shade50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error_outline, color: Colors.red.shade700),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            _msgError,
-                            style: TextStyle(color: Colors.red.shade700),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 300),
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: child,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: ErrorCard(message: _msgError),
                 ),
               ),
           ],
         ),
-      ),
-    );
-  }
-
-  // ========================================================================
-  // WIDGETS AUXILIARES
-  // ========================================================================
-
-  /// Construye un campo de texto numérico con estilo consistente.
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(Icons.straighten),
-        ),
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
     );
   }

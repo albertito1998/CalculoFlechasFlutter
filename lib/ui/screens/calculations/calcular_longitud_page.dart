@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:elecnorappflechas/core/constants/app_constants.dart';
-import 'package:elecnorappflechas/ui/theme/app_theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
+import 'package:elecnorappflechas/ui/widgets/widgets.dart';
 
 /// Pantalla para calcular la longitud de un vano a partir de la altura y los ángulos.
 ///
@@ -73,125 +73,99 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const InfoCard(
+              title: 'Calcular Longitud de Vano',
+              content:
+                  'Calcula la longitud del vano usando la altura y los ángulos superior e inferior medidos.',
+              icon: Icons.straighten,
+            ),
+            const SizedBox(height: 24),
             const Text(
-              'Introduzca los siguientes datos:',
+              'Parámetros de entrada',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
 
             // Campos de entrada
-            _buildTextField(
-              label: 'Altura (m)',
+            NumericTextField(
+              label: 'Altura',
               controller: _txtAlturaController,
+              suffix: 'm',
+              prefixIcon: Icons.height,
             ),
-            _buildTextField(
-              label: 'Ángulo parte superior (°)',
+            NumericTextField(
+              label: 'Ángulo parte superior',
               controller: _txtAnguloSupController,
+              suffix: '°',
+              prefixIcon: Icons.arrow_upward,
             ),
-            _buildTextField(
-              label: 'Ángulo parte inferior (°)',
+            NumericTextField(
+              label: 'Ángulo parte inferior',
               controller: _txtAnguloInfController,
+              suffix: '°',
+              prefixIcon: Icons.arrow_downward,
             ),
 
             const SizedBox(height: 24),
 
             // Botón calcular
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _calcularLongitud,
-                child: const Text('Calcular'),
-              ),
+            PrimaryButton(
+              text: 'Calcular',
+              onPressed: _calcularLongitud,
+              icon: Icons.calculate,
             ),
 
             const SizedBox(height: 16),
 
             // Botón limpiar
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: _limpiarCampos,
-                icon: const Icon(Icons.clear),
-                label: const Text('Vaciar'),
-              ),
+            SecondaryButton(
+              text: 'Vaciar',
+              onPressed: _limpiarCampos,
+              icon: Icons.clear,
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
 
-            // Resultado
+            // Resultado con animación
             if (_result.isNotEmpty)
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Longitud Calculada:',
-                        style: TextStyle(fontWeight: FontWeight.w500),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        _result,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: AppTheme.secondaryOrange,
-                        ),
-                      ),
-                    ],
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutBack,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: 0.8 + (0.2 * value),
+                    child: Opacity(
+                      opacity: value,
+                      child: child,
+                    ),
+                  );
+                },
+                child: ResultCard(
+                  title: 'Longitud Calculada',
+                  value: _result,
+                  icon: Icons.straighten,
                 ),
               ),
 
-            // Mensaje de error
+            // Mensaje de error con animación
             if (_errorMessage.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Card(
-                  color: Colors.red.shade50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error_outline, color: Colors.red.shade700),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            _errorMessage,
-                            style: TextStyle(color: Colors.red.shade700),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 300),
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: child,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: ErrorCard(message: _errorMessage),
                 ),
               ),
           ],
         ),
-      ),
-    );
-  }
-
-  // ========================================================================
-  // WIDGETS AUXILIARES
-  // ========================================================================
-
-  /// Construye un campo de texto numérico con estilo consistente.
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(Icons.straighten),
-        ),
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
     );
   }

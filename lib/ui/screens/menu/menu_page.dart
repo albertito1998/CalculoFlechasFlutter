@@ -268,10 +268,11 @@ class _MenuPageState extends State<MenuPage> {
                   children: [
                     Text(
                       'Herramientas de Cálculo',
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).colorScheme.primary,
-                          ),
+                      style:
+                          Theme.of(context).textTheme.headlineMedium?.copyWith(
+                                fontWeight: FontWeight.bold,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
                       textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),

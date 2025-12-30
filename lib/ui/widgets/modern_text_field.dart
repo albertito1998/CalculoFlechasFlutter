@@ -57,7 +57,7 @@ class ModernTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return TextFormField(
       controller: controller,
       enabled: enabled,
@@ -71,8 +71,8 @@ class ModernTextField extends StatelessWidget {
         suffixText: suffix,
         prefixIcon: prefixIcon != null ? Icon(prefixIcon) : null,
         filled: true,
-        fillColor: enabled 
-            ? theme.colorScheme.surface 
+        fillColor: enabled
+            ? theme.colorScheme.surface
             : theme.disabledColor.withValues(alpha: 0.05),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
@@ -170,8 +170,7 @@ class NumericTextField extends StatelessWidget {
         signed: allowNegative,
       ),
       inputFormatters: [
-        if (!allowNegative)
-          FilteringTextInputFormatter.deny(RegExp(r'-')),
+        if (!allowNegative) FilteringTextInputFormatter.deny(RegExp(r'-')),
         if (allowDecimals)
           FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d*'))
         else

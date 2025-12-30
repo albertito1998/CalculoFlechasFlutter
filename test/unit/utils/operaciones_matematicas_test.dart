@@ -124,11 +124,11 @@ void main() {
       const G = 50.0; // Ángulo en gon
       const C = 100.0; // Constante
       final tg = ops.calculotang1(G, C);
-      
+
       const L = 100.0; // Longitud
-      const H = 10.0;  // Altura
+      const H = 10.0; // Altura
       final flecha = ops.calculoraiz(tg, L, H);
-      
+
       expect(flecha, isA<double>());
       expect(flecha.isFinite, isTrue);
       expect(flecha, greaterThan(0));

@@ -35,9 +35,9 @@ class PrimaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     Widget buttonChild;
-    
+
     if (isLoading) {
       buttonChild = SizedBox(
         height: 20,
@@ -112,7 +112,7 @@ class SecondaryButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget buttonChild;
-    
+
     if (icon != null) {
       buttonChild = Row(
         mainAxisSize: MainAxisSize.min,

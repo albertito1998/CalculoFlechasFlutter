@@ -1,5 +1,5 @@
 /// Constantes de la aplicación Elecnor Flechas
-/// 
+///
 /// Este archivo centraliza todas las constantes utilizadas en la aplicación
 /// para facilitar el mantenimiento y evitar valores mágicos en el código.
 library;
@@ -83,33 +83,38 @@ class AppMessages {
 
   // Mensajes de autenticación
   static const String logoutTitle = 'Cerrar sesión';
-  static const String logoutMessage = '¿Estás seguro de que deseas cerrar sesión?';
+  static const String logoutMessage =
+      '¿Estás seguro de que deseas cerrar sesión?';
   static const String logoutSuccess = 'Sesión cerrada correctamente';
-  
+
   static const String exitTitle = '¿Salir de la aplicación?';
-  static const String exitMessage = '¿Estás seguro de que deseas cerrar la app?';
-  
+  static const String exitMessage =
+      '¿Estás seguro de que deseas cerrar la app?';
+
   static const String loginTitle = 'Acceso Elecnor';
   static const String welcomeMessage = 'Bienvenido';
   static const String emailLabel = 'Introduce tu correo electrónico';
   static const String emailHint = 'usuario@correo.com';
   static const String loginButton = 'Acceder';
-  
+
   // Mensajes de validación
-  static const String emailEmptyError = 'El campo de correo electrónico no puede estar vacío';
+  static const String emailEmptyError =
+      'El campo de correo electrónico no puede estar vacío';
   static const String emailInvalidError = 'El correo es inválido';
   static const String passwordEmptyError = 'La contraseña no puede estar vacía';
-  
+
   // Mensajes generales
   static const String cancel = 'Cancelar';
   static const String accept = 'Aceptar';
   static const String yes = 'Sí';
   static const String no = 'No';
   static const String termsAndConditions = 'Términos y Condiciones';
-  
+
   // Mensajes de error
-  static const String genericError = 'Ha ocurrido un error. Por favor, intenta de nuevo.';
-  static const String networkError = 'Error de conexión. Verifica tu conexión a internet.';
+  static const String genericError =
+      'Ha ocurrido un error. Por favor, intenta de nuevo.';
+  static const String networkError =
+      'Error de conexión. Verifica tu conexión a internet.';
 }
 
 /// Constantes matemáticas y de cálculo

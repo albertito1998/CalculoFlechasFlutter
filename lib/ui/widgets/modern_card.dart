@@ -85,7 +85,7 @@ class ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return ModernCard(
       color: theme.colorScheme.primaryContainer.withValues(alpha: 0.3),
       elevation: 2,
@@ -141,7 +141,7 @@ class ErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return ModernCard(
       color: theme.colorScheme.errorContainer.withValues(alpha: 0.3),
       elevation: 2,
@@ -189,7 +189,7 @@ class InfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     return ModernCard(
       color: theme.colorScheme.secondaryContainer.withValues(alpha: 0.3),
       child: Column(

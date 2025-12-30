@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:elecnorappflechas/core/constants/app_constants.dart';
-import 'package:elecnorappflechas/ui/theme/app_theme.dart';
+import 'package:elecnorappflechas/ui/widgets/widgets.dart';
 
 /// Pantalla para calcular las tolerancias de flecha según la normativa.
 ///
@@ -59,162 +59,108 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
           ),
         ],
       ),
-      body: Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('Assets/Images/Elecnor.jpg'),
-            fit: BoxFit.cover,
-            opacity: 0.25,
-          ),
-        ),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(AppConstants.standardPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Logo y título de empresa
-              Row(
-                children: [
-                  Image.asset(
-                    'Assets/Images/Elecnor.jpg',
-                    width: 70,
-                    height: 35,
-                  ),
-                  const SizedBox(width: 12),
-                  const Expanded(
-                    child: Text(
-                      AppConstants.companyName,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppConstants.standardPadding),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const InfoCard(
+              title: 'Tolerancias de Flecha',
+              content:
+                  'Calcula la tolerancia permitida según la longitud del vano y la normativa aplicable.',
+              icon: Icons.rule,
+            ),
+            const SizedBox(height: 24),
+
+            // Campo de entrada
+            const Text(
+              'Longitud del vano',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+
+            NumericTextField(
+              label: 'Longitud del vano',
+              controller: _longitudController,
+              suffix: 'm',
+              prefixIcon: Icons.straighten,
+            ),
+
+            const SizedBox(height: 24),
+
+            // Botón calcular
+            PrimaryButton(
+              text: 'Calcular',
+              onPressed: _calcularTolerancia,
+              icon: Icons.calculate,
+            ),
+
+            const SizedBox(height: 32),
+
+            // Tabla normativa
+            const Text(
+              'Normativa de Tolerancias',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const SizedBox(height: 10),
+
+            GestureDetector(
+              onTap: () => _mostrarImagenAmpliada(
+                context,
+                'Assets/Images/tennettolerancias.jpg',
               ),
-
-              const SizedBox(height: 25),
-
-              const Text(
-                'Tolerancias de Flecha',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-
-              const SizedBox(height: 20),
-
-              // Campo de entrada
-              const Text(
-                'Longitud del vano (m):',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              const SizedBox(height: 6),
-
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _longitudController,
-                      keyboardType:
-                          const TextInputType.numberWithOptions(decimal: true),
-                      decoration: const InputDecoration(
-                        labelText: '0.00',
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(),
-                        prefixIcon: Icon(Icons.straighten),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  const Text('m',
-                      style: TextStyle(fontWeight: FontWeight.w600)),
-                ],
-              ),
-
-              const SizedBox(height: 20),
-
-              // Botón calcular
-              Center(
-                child: FilledButton(
-                  onPressed: _calcularTolerancia,
-                  child: const Text('Calcular'),
-                ),
-              ),
-
-              const SizedBox(height: 25),
-
-              // Tabla normativa
-              const Text(
-                'Normativa de Tolerancias',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-
-              GestureDetector(
-                onTap: () => _mostrarImagenAmpliada(
-                  context,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: Image.asset(
                   'Assets/Images/tennettolerancias.jpg',
+                  height: 140,
+                  fit: BoxFit.contain,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(8),
-                  child: Image.asset(
-                    'Assets/Images/tennettolerancias.jpg',
-                    height: 140,
-                    fit: BoxFit.contain,
+              ),
+            ),
+
+            const SizedBox(height: 32),
+
+            // Resultado con animación
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: 1.0),
+              duration: const Duration(milliseconds: 400),
+              curve: Curves.easeOutBack,
+              builder: (context, value, child) {
+                return Transform.scale(
+                  scale: 0.8 + (0.2 * value),
+                  child: Opacity(
+                    opacity: value,
+                    child: child,
                   ),
-                ),
+                );
+              },
+              child: ResultCard(
+                title: 'Tolerancia Calculada',
+                value: _resultado,
+                icon: Icons.check_circle,
               ),
+            ),
 
-              const SizedBox(height: 25),
+            const SizedBox(height: 35),
 
-              // Resultado
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Tolerancia Calculada:',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Text(
-                        _resultado,
-                        style: const TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.secondaryOrange,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+            // Logos de clientes
+            const Text(
+              'Clientes en Alemania:',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
 
-              const SizedBox(height: 35),
-
-              // Logos de clientes
-              const Text(
-                'Clientes en Alemania:',
-                style: TextStyle(fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Image.asset('Assets/Images/tennet.png', width: 60),
-                  Image.asset('Assets/Images/transnetbw.png', width: 60),
-                  Image.asset('Assets/Images/hertz50.png', width: 60),
-                  Image.asset('Assets/Images/amprion.png', width: 60),
-                ],
-              ),
-            ],
-          ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Image.asset('Assets/Images/tennet.png', width: 60),
+                Image.asset('Assets/Images/transnetbw.png', width: 60),
+                Image.asset('Assets/Images/hertz50.png', width: 60),
+                Image.asset('Assets/Images/amprion.png', width: 60),
+              ],
+            ),
+          ],
         ),
       ),
     );

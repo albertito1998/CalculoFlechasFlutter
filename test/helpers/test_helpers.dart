@@ -13,7 +13,7 @@ class TestConstants {
   static const String invalidEmail = 'test@gmail.com';
   static const String validPassword = 'Test1234!';
   static const String weakPassword = '123';
-  
+
   // Datos de prueba para cálculos
   static const double testHeight = 10.0;
   static const double testAngle1 = 45.0;
@@ -95,15 +95,15 @@ Matcher inRange(num min, num max) {
 class _InRange extends Matcher {
   final num min;
   final num max;
-  
+
   const _InRange(this.min, this.max);
-  
+
   @override
   bool matches(dynamic item, Map matchState) {
     if (item is! num) return false;
     return item >= min && item <= max;
   }
-  
+
   @override
   Description describe(Description description) {
     return description.add('a number between $min and $max');
@@ -118,15 +118,15 @@ Matcher closeTo(double value, {double delta = 0.001}) {
 class _CloseTo extends Matcher {
   final double value;
   final double delta;
-  
+
   const _CloseTo(this.value, this.delta);
-  
+
   @override
   bool matches(dynamic item, Map matchState) {
     if (item is! num) return false;
     return (item - value).abs() <= delta;
   }
-  
+
   @override
   Description describe(Description description) {
     return description.add('a number close to $value (±$delta)');

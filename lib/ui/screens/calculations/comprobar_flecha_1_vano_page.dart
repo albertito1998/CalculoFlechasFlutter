@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:elecnorappflechas/core/constants/app_constants.dart';
 import 'package:elecnorappflechas/ui/theme/app_theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
+import 'package:elecnorappflechas/ui/widgets/widgets.dart';
 
 /// Pantalla para comprobar la flecha real de un vano.
 ///
@@ -78,77 +79,90 @@ class _ComprobarFlecha1VanoPageState extends State<ComprobarFlecha1VanoPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const InfoCard(
+              title: 'Comprobar Flecha Real en 1 Vano',
+              content:
+                  'Determina si el cable está correctamente tensado comparando la flecha real medida con la teórica.',
+              icon: Icons.check_circle_outline,
+            ),
+            const SizedBox(height: 24),
             const Text(
-              'Introduzca los siguientes datos:',
+              'Parámetros de entrada',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
 
             // Campos de entrada
-            _buildTextField(
-              label: 'Distancia taquímetro (m)',
+            NumericTextField(
+              label: 'Distancia taquímetro',
               controller: _txtDistancia,
+              suffix: 'm',
+              prefixIcon: Icons.straighten,
             ),
-            _buildTextField(
-              label: 'Ángulo en grapa (°)',
+            NumericTextField(
+              label: 'Ángulo en grapa',
               controller: _txtAngGrapa,
+              suffix: '°',
+              prefixIcon: Icons.architecture,
             ),
-            _buildTextField(
-              label: 'Ángulo en cable (°)',
+            NumericTextField(
+              label: 'Ángulo en cable',
               controller: _txtAngCable,
+              suffix: '°',
+              prefixIcon: Icons.cable,
             ),
-            _buildTextField(
-              label: 'Longitud del vano (m)',
+            NumericTextField(
+              label: 'Longitud del vano',
               controller: _txtLongVano,
+              suffix: 'm',
+              prefixIcon: Icons.linear_scale,
             ),
-            _buildTextField(
-              label: 'Flecha teórica (m)',
+            NumericTextField(
+              label: 'Flecha teórica',
               controller: _txtFlechaTeorica,
+              suffix: 'm',
+              prefixIcon: Icons.show_chart,
             ),
 
             const SizedBox(height: 24),
 
             // Botón calcular
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _calcular,
-                child: const Text('Calcular Flecha Real'),
-              ),
+            PrimaryButton(
+              text: 'Calcular Flecha Real',
+              onPressed: _calcular,
+              icon: Icons.calculate,
             ),
 
             const SizedBox(height: 16),
 
             // Botón limpiar
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: _limpiar,
-                icon: const Icon(Icons.clear),
-                label: const Text('Limpiar'),
-              ),
+            SecondaryButton(
+              text: 'Limpiar',
+              onPressed: _limpiar,
+              icon: Icons.clear,
             ),
 
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
 
             // Resultado - Flecha Real
             if (_flechaRealTxt.isNotEmpty)
-              Card(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        _flechaRealTxt,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          color: AppTheme.primaryBlue,
-                        ),
-                      ),
-                    ],
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 400),
+                curve: Curves.easeOutBack,
+                builder: (context, value, child) {
+                  return Transform.scale(
+                    scale: 0.8 + (0.2 * value),
+                    child: Opacity(
+                      opacity: value,
+                      child: child,
+                    ),
+                  );
+                },
+                child: ResultCard(
+                  title: 'Resultado',
+                  value: _flechaRealTxt,
+                  icon: Icons.done,
                 ),
               ),
 
@@ -156,16 +170,40 @@ class _ComprobarFlecha1VanoPageState extends State<ComprobarFlecha1VanoPage> {
             if (_cableBajoTxt.isNotEmpty)
               Padding(
                 padding: const EdgeInsets.only(top: 12),
-                child: Card(
-                  color: Colors.orange.shade50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      _cableBajoTxt,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w600,
-                        color: AppTheme.secondaryOrange,
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 400),
+                  curve: Curves.easeOut,
+                  builder: (context, value, child) {
+                    return Opacity(
+                      opacity: value,
+                      child: child,
+                    );
+                  },
+                  child: ModernCard(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        children: [
+                          Icon(
+                            _cableBajoTxt.contains('ALTO')
+                                ? Icons.arrow_upward
+                                : Icons.arrow_downward,
+                            color: AppTheme.secondaryOrange,
+                            size: 32,
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Text(
+                              _cableBajoTxt,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                                color: AppTheme.secondaryOrange,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -174,52 +212,22 @@ class _ComprobarFlecha1VanoPageState extends State<ComprobarFlecha1VanoPage> {
 
             // Mensaje de error
             if (_errorMessage.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 16),
-                child: Card(
-                  color: Colors.red.shade50,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Icon(Icons.error_outline, color: Colors.red.shade700),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            _errorMessage,
-                            style: TextStyle(color: Colors.red.shade700),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: 1.0),
+                duration: const Duration(milliseconds: 300),
+                builder: (context, value, child) {
+                  return Opacity(
+                    opacity: value,
+                    child: child,
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: ErrorCard(message: _errorMessage),
                 ),
               ),
           ],
         ),
-      ),
-    );
-  }
-
-  // ========================================================================
-  // WIDGETS AUXILIARES
-  // ========================================================================
-
-  /// Construye un campo de texto numérico con estilo consistente.
-  Widget _buildTextField({
-    required String label,
-    required TextEditingController controller,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: TextField(
-        controller: controller,
-        decoration: InputDecoration(
-          labelText: label,
-          border: const OutlineInputBorder(),
-          prefixIcon: const Icon(Icons.straighten),
-        ),
-        keyboardType: const TextInputType.numberWithOptions(decimal: true),
       ),
     );
   }
