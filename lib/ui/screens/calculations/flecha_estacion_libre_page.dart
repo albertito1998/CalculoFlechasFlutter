@@ -7,10 +7,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 
 /// Pantalla para calcular la flecha desde una estación libre.
-/// 
+///
 /// Utiliza las alturas útiles de las torres, las distancias desde la estación libre,
 /// el ángulo medido y la flecha topográfica para determinar el ángulo θ correcto.
-/// 
+///
 /// **Características adicionales:**
 /// - Obtención automática de ubicación GPS
 /// - Consulta de datos meteorológicos en tiempo real
@@ -19,14 +19,15 @@ class FlechaEstacionLibrePage extends StatefulWidget {
   const FlechaEstacionLibrePage({super.key});
 
   @override
-  State<FlechaEstacionLibrePage> createState() => _FlechaEstacionLibrePageState();
+  State<FlechaEstacionLibrePage> createState() =>
+      _FlechaEstacionLibrePageState();
 }
 
 class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // CONTROLADORES DE TEXTO
   // ========================================================================
-  
+
   final TextEditingController _altura1 = TextEditingController();
   final TextEditingController _altura2 = TextEditingController();
   final TextEditingController _distancia1 = TextEditingController();
@@ -39,7 +40,7 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // VARIABLES DE ESTADO
   // ========================================================================
-  
+
   String _ubicacion = '';
   String _viento = '';
   String _temperatura = '';
@@ -69,7 +70,7 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // BUILD
   // ========================================================================
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,13 +99,13 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Campos de entrada
             _buildTextField('Altura útil Torre 1 (m)', _altura1),
             _buildTextField('Altura útil Torre 2 (m)', _altura2),
             _buildTextField('Distancia Torre 1 (m)', _distancia1),
             _buildTextField('Distancia Torre 2 (m)', _distancia2),
-            
+
             // Ángulo en tres campos
             const Text(
               'Ángulo medido:',
@@ -113,26 +114,32 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
             const SizedBox(height: 6),
             Row(
               children: [
-                Expanded(child: _buildTextField('Grados', _anguloGrados, compact: true)),
+                Expanded(
+                    child: _buildTextField('Grados', _anguloGrados,
+                        compact: true)),
                 const SizedBox(width: 6),
-                Expanded(child: _buildTextField('Minutos', _anguloMinutos, compact: true)),
+                Expanded(
+                    child: _buildTextField('Minutos', _anguloMinutos,
+                        compact: true)),
                 const SizedBox(width: 6),
-                Expanded(child: _buildTextField('Segundos', _anguloSegundos, compact: true)),
+                Expanded(
+                    child: _buildTextField('Segundos', _anguloSegundos,
+                        compact: true)),
               ],
             ),
-            
+
             _buildTextField('Flecha (m)', _flecha),
-            
+
             const SizedBox(height: 24),
-            
+
             // Botón comprobar
             FilledButton(
               onPressed: _comprobarDatos,
               child: const Text('Comprobar'),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Resultado
             if (_resultadoTheta.isNotEmpty)
               Card(
@@ -158,16 +165,16 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
                   ),
                 ),
               ),
-            
+
             const Divider(height: 40),
-            
+
             // Datos meteorológicos
             const Text(
               'Datos Meteorológicos',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            
+
             Card(
               child: Column(
                 children: [
@@ -188,9 +195,10 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // WIDGETS AUXILIARES
   // ========================================================================
-  
+
   /// Construye un campo de texto numérico con estilo consistente.
-  Widget _buildTextField(String label, TextEditingController controller, {bool compact = false}) {
+  Widget _buildTextField(String label, TextEditingController controller,
+      {bool compact = false}) {
     return Padding(
       padding: EdgeInsets.only(bottom: compact ? 0 : 12),
       child: TextField(
@@ -217,9 +225,9 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // LÓGICA DE CÁLCULO
   // ========================================================================
-  
+
   /// Comprueba los datos y calcula el ángulo θ.
-  /// 
+  ///
   /// Fórmula: θ = 90 - arctan(((ha + hb)/2 - f) / √(da² + db²))
   void _comprobarDatos() {
     // Validar que todos los campos estén completos
@@ -253,7 +261,8 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
       // Cálculo del ángulo θ
       final alturaPromedio = (ha + hb) / 2;
       final distanciaTotal = sqrt(pow(da, 2) + pow(db, 2));
-      final theta = 90 - atan((alturaPromedio - flecha) / distanciaTotal) * 180 / pi;
+      final theta =
+          90 - atan((alturaPromedio - flecha) / distanciaTotal) * 180 / pi;
 
       setState(() {
         _resultadoTheta = '${theta.toStringAsFixed(2)}°';
@@ -275,7 +284,7 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // DATOS METEOROLÓGICOS
   // ========================================================================
-  
+
   /// Obtiene la ubicación GPS y consulta los datos meteorológicos.
   Future<void> _obtenerUbicacionYDatosMeteo() async {
     try {
@@ -290,7 +299,8 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
       if (permiso == LocationPermission.denied) {
         permiso = await Geolocator.requestPermission();
         if (permiso == LocationPermission.deniedForever) {
-          setState(() => _ubicacion = 'Permisos de ubicación denegados permanentemente');
+          setState(() =>
+              _ubicacion = 'Permisos de ubicación denegados permanentemente');
           return;
         }
       }
@@ -298,7 +308,8 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
       // Obtener posición actual
       final posicion = await Geolocator.getCurrentPosition();
       setState(() {
-        _ubicacion = '${posicion.latitude.toStringAsFixed(4)}, ${posicion.longitude.toStringAsFixed(4)}';
+        _ubicacion =
+            '${posicion.latitude.toStringAsFixed(4)}, ${posicion.longitude.toStringAsFixed(4)}';
       });
 
       // Consultar API meteorológica
@@ -328,7 +339,7 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
   // ========================================================================
   // DIÁLOGOS
   // ========================================================================
-  
+
   /// Muestra el diálogo de ayuda con información sobre el cálculo.
   void _mostrarAyuda(BuildContext context) {
     showDialog(
@@ -353,13 +364,13 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               const Text(
                 'Esta herramienta calcula el ángulo θ para flechado desde una estación libre.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              
+
               const Text(
                 'Parámetros necesarios:',
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -368,19 +379,19 @@ class _FlechaEstacionLibrePageState extends State<FlechaEstacionLibrePage> {
               const Text('• Distancias desde la estación libre (m)'),
               const Text('• Ángulo medido (grados, minutos, segundos)'),
               const Text('• Flecha topográfica (m)'),
-              
+
               const SizedBox(height: 12),
-              
+
               const Text(
                 'Adicionalmente, se obtienen datos meteorológicos en tiempo real para '
                 'facilitar el análisis de condiciones de trabajo.',
                 textAlign: TextAlign.justify,
               ),
-              
+
               const SizedBox(height: 8),
               const Divider(),
               const SizedBox(height: 8),
-              
+
               const Text(
                 '💡 Toque la imagen para verla ampliada',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),

@@ -1,5 +1,5 @@
 /// Exporta todas las pantallas de cálculos
-/// 
+///
 /// Este archivo facilita la importación de todas las pantallas relacionadas
 /// con cálculos de flechas en un solo import.
 library;

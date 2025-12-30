@@ -3,12 +3,12 @@ import 'package:elecnorappflechas/core/constants/app_constants.dart';
 import 'package:elecnorappflechas/theme.dart';
 
 /// Pantalla para calcular las tolerancias de flecha según la normativa.
-/// 
+///
 /// Las tolerancias dependen de la longitud del vano según las normas:
 /// - Vanos < 200 m: tolerancia fija de 5 cm
 /// - Vanos entre 200-500 m: tolerancia calculada según fórmula (0.05 × L - 5) cm
 /// - Vanos > 500 m: tolerancia fija de 20 cm
-/// 
+///
 /// **Normativa aplicable:**
 /// Basado en estándares de TenneT y otros operadores de red en Alemania.
 class ToleranciasPage extends StatefulWidget {
@@ -22,13 +22,13 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
   // ========================================================================
   // CONTROLADORES DE TEXTO
   // ========================================================================
-  
+
   final TextEditingController _longitudController = TextEditingController();
 
   // ========================================================================
   // VARIABLES DE ESTADO
   // ========================================================================
-  
+
   String _resultado = '0 cm';
 
   @override
@@ -40,7 +40,7 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
   // ========================================================================
   // BUILD
   // ========================================================================
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,29 +92,30 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 25),
-              
+
               const Text(
                 'Tolerancias de Flecha',
                 style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               // Campo de entrada
               const Text(
                 'Longitud del vano (m):',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 6),
-              
+
               Row(
                 children: [
                   Expanded(
                     child: TextField(
                       controller: _longitudController,
-                      keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                      keyboardType:
+                          const TextInputType.numberWithOptions(decimal: true),
                       decoration: const InputDecoration(
                         labelText: '0.00',
                         filled: true,
@@ -125,12 +126,13 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
                     ),
                   ),
                   const SizedBox(width: 10),
-                  const Text('m', style: TextStyle(fontWeight: FontWeight.w600)),
+                  const Text('m',
+                      style: TextStyle(fontWeight: FontWeight.w600)),
                 ],
               ),
-              
+
               const SizedBox(height: 20),
-              
+
               // Botón calcular
               Center(
                 child: FilledButton(
@@ -138,16 +140,16 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
                   child: const Text('Calcular'),
                 ),
               ),
-              
+
               const SizedBox(height: 25),
-              
+
               // Tabla normativa
               const Text(
                 'Normativa de Tolerancias',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              
+
               GestureDetector(
                 onTap: () => _mostrarImagenAmpliada(
                   context,
@@ -162,9 +164,9 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 25),
-              
+
               // Resultado
               Card(
                 child: Padding(
@@ -192,16 +194,16 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 35),
-              
+
               // Logos de clientes
               const Text(
                 'Clientes en Alemania:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -221,9 +223,9 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
   // ========================================================================
   // LÓGICA DE CÁLCULO
   // ========================================================================
-  
+
   /// Calcula la tolerancia de flecha según la normativa.
-  /// 
+  ///
   /// Reglas:
   /// - L < 200 m → 5 cm
   /// - 200 m ≤ L ≤ 500 m → (0.05 × L - 5) cm
@@ -259,7 +261,7 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
   // ========================================================================
   // DIÁLOGOS
   // ========================================================================
-  
+
   /// Muestra el diálogo de ayuda con información sobre las tolerancias.
   void _mostrarAyuda(BuildContext context) {
     showDialog(
@@ -287,13 +289,13 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               const Text(
                 'La tolerancia de flecha depende de la longitud del vano según la normativa.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 12),
-              
+
               const Text(
                 'Reglas aplicadas:',
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -301,18 +303,18 @@ class _ToleranciasPageState extends State<ToleranciasPage> {
               const Text('• < 200 m → 5 cm'),
               const Text('• 200–500 m → fórmula 0.05 × L − 5'),
               const Text('• > 500 m → 20 cm'),
-              
+
               const SizedBox(height: 12),
-              
+
               const Text(
                 'Donde L es la longitud del vano en metros.',
                 textAlign: TextAlign.justify,
               ),
-              
+
               const SizedBox(height: 8),
               const Divider(),
               const SizedBox(height: 8),
-              
+
               const Text(
                 '💡 Toque la imagen para verla ampliada',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),

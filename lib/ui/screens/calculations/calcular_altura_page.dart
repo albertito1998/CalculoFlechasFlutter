@@ -3,10 +3,10 @@ import 'package:elecnorappflechas/core/constants/app_constants.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
 
 /// Pantalla para calcular la altura de un cable entre dos puntos.
-/// 
+///
 /// Utiliza los ángulos superior e inferior del cable y la longitud del vano
 /// para determinar la altura proyectada mediante cálculos trigonométricos.
-/// 
+///
 /// **Fórmula aplicada:**
 /// ```
 /// altura = L × tan(ángulo)
@@ -24,7 +24,7 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
   // ========================================================================
   // CONTROLADORES DE TEXTO
   // ========================================================================
-  
+
   final TextEditingController _txtAngSupController = TextEditingController();
   final TextEditingController _txtLongVanoController = TextEditingController();
   final TextEditingController _txtAngInfController = TextEditingController();
@@ -32,7 +32,7 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
   // ========================================================================
   // VARIABLES DE ESTADO
   // ========================================================================
-  
+
   String _errorMessage = '';
   String _result = '';
   final OperacionesMatematicas _operaciones = const OperacionesMatematicas();
@@ -48,7 +48,7 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
   // ========================================================================
   // BUILD
   // ========================================================================
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +77,7 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Campos de entrada
             _buildTextField(
               label: 'Ángulo parte superior (°)',
@@ -91,9 +91,9 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
               label: 'Ángulo parte inferior (°)',
               controller: _txtAngInfController,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Botón calcular
             SizedBox(
               width: double.infinity,
@@ -102,9 +102,9 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
                 child: const Text('Calcular'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Resultado
             if (_result.isNotEmpty)
               Card(
@@ -130,7 +130,7 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
                   ),
                 ),
               ),
-            
+
             // Mensaje de error
             if (_errorMessage.isNotEmpty)
               Padding(
@@ -163,7 +163,7 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
   // ========================================================================
   // WIDGETS AUXILIARES
   // ========================================================================
-  
+
   /// Construye un campo de texto numérico con estilo consistente.
   Widget _buildTextField({
     required String label,
@@ -186,9 +186,9 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
   // ========================================================================
   // LÓGICA DE CÁLCULO
   // ========================================================================
-  
+
   /// Calcula la altura del cable basándose en los ángulos y la longitud del vano.
-  /// 
+  ///
   /// Selecciona automáticamente el tipo de tangente según los valores:
   /// - calculotang1: ambos ángulos < 100°
   /// - calculotang2: ambos ángulos > 100°
@@ -206,7 +206,8 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
 
       // Validaciones
       if (longitudVano <= 0) {
-        setState(() => _errorMessage = 'La longitud del vano debe ser mayor que cero.');
+        setState(() =>
+            _errorMessage = 'La longitud del vano debe ser mayor que cero.');
         return;
       }
 
@@ -231,7 +232,8 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Error en el cálculo. Verifique los datos introducidos.';
+        _errorMessage =
+            'Error en el cálculo. Verifique los datos introducidos.';
       });
     }
   }
@@ -239,7 +241,7 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
   // ========================================================================
   // DIÁLOGOS
   // ========================================================================
-  
+
   /// Muestra el diálogo de ayuda con información sobre el cálculo.
   void _mostrarAyuda(BuildContext context) {
     showDialog(
@@ -264,13 +266,13 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               const Text(
                 'Esta herramienta calcula la altura proyectada del cable entre dos puntos.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              
+
               const Text(
                 'Parámetros necesarios:',
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -278,18 +280,18 @@ class _CalcularAlturaPageState extends State<CalcularAlturaPage> {
               const Text('• Ángulo superior (en grados centesimales)'),
               const Text('• Longitud del vano (en metros)'),
               const Text('• Ángulo inferior (en grados centesimales)'),
-              
+
               const SizedBox(height: 12),
-              
+
               const Text(
                 'La fórmula selecciona automáticamente el tipo de tangente según los valores angulares para obtener el resultado más preciso.',
                 textAlign: TextAlign.justify,
               ),
-              
+
               const SizedBox(height: 8),
               const Divider(),
               const SizedBox(height: 8),
-              
+
               const Text(
                 '💡 Toque la imagen para verla ampliada',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),

@@ -1,5 +1,5 @@
 /// Pantalla de inicio de sesión de la aplicación
-/// 
+///
 /// Permite a los usuarios autenticarse utilizando su correo electrónico
 /// corporativo de Elecnor.
 library;
@@ -18,7 +18,7 @@ import '../terms/terms_page.dart';
 import '../../../utils/validators/email_validator.dart';
 
 /// Página de inicio de sesión
-/// 
+///
 /// Proporciona un formulario para que los usuarios ingresen su correo
 /// electrónico corporativo y accedan a la aplicación.
 class LoginPage extends StatefulWidget {
@@ -97,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
   /// Abre la URL corporativa de Elecnor
   Future<void> _launchElecnorUrl() async {
     final uri = Uri.parse(AppConstants.companyUrl);
-    
+
     if (await canLaunchUrl(uri)) {
       await launchUrl(
         uri,
@@ -163,8 +163,8 @@ class _LoginPageState extends State<LoginPage> {
           // Si falla la carga de la imagen, muestra un color de fondo
           return Container(
             color: Theme.of(context).colorScheme.primary.withValues(
-          alpha: 0.1,
-        ),
+                  alpha: 0.1,
+                ),
           );
         },
       ),

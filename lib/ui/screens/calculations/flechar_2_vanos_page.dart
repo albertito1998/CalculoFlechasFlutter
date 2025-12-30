@@ -5,10 +5,10 @@ import 'package:elecnorappflechas/theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
 
 /// Pantalla para calcular el ángulo necesario para flechar el segundo vano.
-/// 
+///
 /// Utiliza los ángulos en las grapas 1 y 2, las longitudes de ambos vanos
 /// y la flecha teórica del vano 2 para determinar el ángulo correcto de flechado.
-/// 
+///
 /// **Proceso:**
 /// 1. Calcula el parámetro E usando una fórmula compleja
 /// 2. Determina el parámetro X
@@ -25,7 +25,7 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
   // ========================================================================
   // CONTROLADORES DE TEXTO
   // ========================================================================
-  
+
   final TextEditingController _txtAngGrapa1 = TextEditingController();
   final TextEditingController _txtAngGrapa2 = TextEditingController();
   final TextEditingController _txtLongVano1 = TextEditingController();
@@ -35,7 +35,7 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
   // ========================================================================
   // VARIABLES DE ESTADO
   // ========================================================================
-  
+
   String _resultado = '';
   String _error = '';
   final _operaciones = const OperacionesMatematicas();
@@ -53,7 +53,7 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
   // ========================================================================
   // BUILD
   // ========================================================================
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +82,7 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Campos de entrada
             _buildTextField(
               label: 'Ángulo grapa 1 (°)',
@@ -104,9 +104,9 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
               label: 'Flecha teórica vano 2 (m)',
               controller: _txtFlechaTeor2,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Botón calcular
             SizedBox(
               width: double.infinity,
@@ -115,9 +115,9 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
                 child: const Text('Comprobar'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Botón limpiar
             SizedBox(
               width: double.infinity,
@@ -127,9 +127,9 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
                 label: const Text('Vaciar'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Resultado
             if (_resultado.isNotEmpty)
               Card(
@@ -155,7 +155,7 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
                   ),
                 ),
               ),
-            
+
             // Mensaje de error
             if (_error.isNotEmpty)
               Padding(
@@ -188,7 +188,7 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
   // ========================================================================
   // WIDGETS AUXILIARES
   // ========================================================================
-  
+
   /// Construye un campo de texto numérico con estilo consistente.
   Widget _buildTextField({
     required String label,
@@ -211,9 +211,9 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
   // ========================================================================
   // LÓGICA DE CÁLCULO
   // ========================================================================
-  
+
   /// Calcula el ángulo necesario para flechar el segundo vano.
-  /// 
+  ///
   /// Utiliza fórmulas complejas basadas en las tangentes de los ángulos
   /// y las proporciones entre las longitudes de los vanos.
   void _calcularFlechar2Vanos() {
@@ -231,7 +231,8 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
 
       // Validaciones
       if (C <= 0 || J <= 0 || F <= 0) {
-        setState(() => _error = 'Las longitudes y flecha deben ser mayores que cero.');
+        setState(() =>
+            _error = 'Las longitudes y flecha deben ser mayores que cero.');
         return;
       }
 
@@ -297,7 +298,7 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
   // ========================================================================
   // DIÁLOGOS
   // ========================================================================
-  
+
   /// Muestra el diálogo de ayuda con información sobre el cálculo.
   void _mostrarAyuda(BuildContext context) {
     showDialog(
@@ -322,13 +323,13 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               const Text(
                 'Esta herramienta calcula el ángulo necesario para flechar correctamente el segundo vano.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              
+
               const Text(
                 'Parámetros necesarios:',
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -336,18 +337,18 @@ class _Flechar2VanosPageState extends State<Flechar2VanosPage> {
               const Text('• Ángulos en grapas 1 y 2 (en grados centesimales)'),
               const Text('• Longitudes de vanos 1 y 2 (en metros)'),
               const Text('• Flecha teórica del vano 2 (en metros)'),
-              
+
               const SizedBox(height: 12),
-              
+
               const Text(
                 'El cálculo utiliza fórmulas complejas para garantizar el flechado preciso del segundo vano.',
                 textAlign: TextAlign.justify,
               ),
-              
+
               const SizedBox(height: 8),
               const Divider(),
               const SizedBox(height: 8),
-              
+
               const Text(
                 '💡 Toque la imagen para verla ampliada',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),

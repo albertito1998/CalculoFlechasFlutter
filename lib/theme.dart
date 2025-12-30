@@ -1,5 +1,5 @@
 /// Tema de la aplicación Elecnor Flechas
-/// 
+///
 /// Define los colores, estilos y componentes visuales de la aplicación
 /// siguiendo la identidad corporativa de Elecnor.
 library;
@@ -7,7 +7,7 @@ library;
 import 'package:flutter/material.dart';
 
 /// Clase que contiene el tema de la aplicación
-/// 
+///
 /// Utiliza Material 3 con los colores corporativos de Elecnor:
 /// - Azul principal: #005BAC
 /// - Naranja secundario: #EC6608

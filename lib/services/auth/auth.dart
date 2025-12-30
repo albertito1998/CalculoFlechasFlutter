@@ -1,5 +1,5 @@
 /// Servicio de autenticación de Firebase
-/// 
+///
 /// Proporciona una abstracción sobre Firebase Authentication para
 /// gestionar el inicio de sesión, registro y cierre de sesión de usuarios.
 library;
@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 /// Interfaz base para servicios de autenticación
-/// 
+///
 /// Define el contrato que debe cumplir cualquier implementación
 /// de autenticación en la aplicación.
 abstract class BaseAuth {
@@ -16,7 +16,7 @@ abstract class BaseAuth {
   Stream<User?> get onAuthStateChanged;
 
   /// Inicia sesión con email y contraseña
-  /// 
+  ///
   /// Retorna el UID del usuario autenticado.
   /// Lanza una excepción si la autenticación falla.
   Future<String> signInWithEmailAndPassword(
@@ -25,7 +25,7 @@ abstract class BaseAuth {
   );
 
   /// Crea una nueva cuenta de usuario con email y contraseña
-  /// 
+  ///
   /// Retorna el UID del usuario creado.
   /// Lanza una excepción si la creación falla.
   Future<String> createUserWithEmailAndPassword(
@@ -34,12 +34,12 @@ abstract class BaseAuth {
   );
 
   /// Envía un email de recuperación de contraseña
-  /// 
+  ///
   /// Lanza una excepción si el envío falla.
   Future<void> sendPasswordResetEmail(String email);
 
   /// Obtiene el UID del usuario actualmente autenticado
-  /// 
+  ///
   /// Retorna null si no hay usuario autenticado.
   Future<String?> currentUser();
 
@@ -47,14 +47,14 @@ abstract class BaseAuth {
   Future<void> signOut();
 
   /// Inicia sesión con Google
-  /// 
+  ///
   /// Retorna el UID del usuario autenticado.
   /// Lanza una excepción si la autenticación falla.
   Future<String> signInWithGoogle();
 }
 
 /// Implementación del servicio de autenticación usando Firebase
-/// 
+///
 /// Esta clase implementa [BaseAuth] y proporciona todos los métodos
 /// de autenticación usando Firebase Authentication.
 class Auth implements BaseAuth {
@@ -65,8 +65,7 @@ class Auth implements BaseAuth {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
-  Stream<User?> get onAuthStateChanged =>
-      _firebaseAuth.authStateChanges();
+  Stream<User?> get onAuthStateChanged => _firebaseAuth.authStateChanges();
 
   @override
   Future<String> createUserWithEmailAndPassword(
@@ -238,7 +237,7 @@ class Auth implements BaseAuth {
 }
 
 /// Excepción personalizada para errores de autenticación
-/// 
+///
 /// Proporciona mensajes de error más legibles para el usuario.
 class AuthException implements Exception {
   /// Mensaje de error

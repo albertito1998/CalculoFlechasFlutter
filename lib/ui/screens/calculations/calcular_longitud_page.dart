@@ -4,10 +4,10 @@ import 'package:elecnorappflechas/theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
 
 /// Pantalla para calcular la longitud de un vano a partir de la altura y los ángulos.
-/// 
+///
 /// Utiliza los ángulos superior e inferior del cable y la altura del vano
 /// para determinar la longitud mediante cálculos trigonométricos.
-/// 
+///
 /// **Fórmula aplicada:**
 /// ```
 /// longitud = altura / tan(ángulo)
@@ -25,7 +25,7 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
   // ========================================================================
   // CONTROLADORES DE TEXTO
   // ========================================================================
-  
+
   final TextEditingController _txtAlturaController = TextEditingController();
   final TextEditingController _txtAnguloSupController = TextEditingController();
   final TextEditingController _txtAnguloInfController = TextEditingController();
@@ -33,7 +33,7 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
   // ========================================================================
   // VARIABLES DE ESTADO
   // ========================================================================
-  
+
   String _errorMessage = '';
   String _result = '';
   final _operaciones = const OperacionesMatematicas();
@@ -49,7 +49,7 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
   // ========================================================================
   // BUILD
   // ========================================================================
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +78,7 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Campos de entrada
             _buildTextField(
               label: 'Altura (m)',
@@ -92,9 +92,9 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
               label: 'Ángulo parte inferior (°)',
               controller: _txtAnguloInfController,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Botón calcular
             SizedBox(
               width: double.infinity,
@@ -103,9 +103,9 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
                 child: const Text('Calcular'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Botón limpiar
             SizedBox(
               width: double.infinity,
@@ -115,9 +115,9 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
                 label: const Text('Vaciar'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Resultado
             if (_result.isNotEmpty)
               Card(
@@ -143,7 +143,7 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
                   ),
                 ),
               ),
-            
+
             // Mensaje de error
             if (_errorMessage.isNotEmpty)
               Padding(
@@ -176,7 +176,7 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
   // ========================================================================
   // WIDGETS AUXILIARES
   // ========================================================================
-  
+
   /// Construye un campo de texto numérico con estilo consistente.
   Widget _buildTextField({
     required String label,
@@ -199,9 +199,9 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
   // ========================================================================
   // LÓGICA DE CÁLCULO
   // ========================================================================
-  
+
   /// Calcula la longitud del vano basándose en la altura y los ángulos.
-  /// 
+  ///
   /// Selecciona automáticamente el tipo de tangente según los valores:
   /// - calculotang1: ambos ángulos < 100°
   /// - calculotang2: ambos ángulos > 100°
@@ -235,7 +235,8 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
 
       // Validación adicional: evitar división por cero
       if (tangente == 0) {
-        setState(() => _errorMessage = 'Error: tangente inválida (división por cero).');
+        setState(() =>
+            _errorMessage = 'Error: tangente inválida (división por cero).');
         return;
       }
 
@@ -250,7 +251,8 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
       });
     } catch (e) {
       setState(() {
-        _errorMessage = 'Error en el cálculo. Verifique los datos introducidos.';
+        _errorMessage =
+            'Error en el cálculo. Verifique los datos introducidos.';
       });
     }
   }
@@ -269,7 +271,7 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
   // ========================================================================
   // DIÁLOGOS
   // ========================================================================
-  
+
   /// Muestra el diálogo de ayuda con información sobre el cálculo.
   void _mostrarAyuda(BuildContext context) {
     showDialog(
@@ -294,13 +296,13 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               const Text(
                 'Esta herramienta calcula la longitud del vano a partir de la altura y los ángulos medidos.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              
+
               const Text(
                 'Parámetros necesarios:',
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -308,18 +310,18 @@ class _CalcularLongitudPageState extends State<CalcularLongitudPage> {
               const Text('• Altura (en metros)'),
               const Text('• Ángulo superior (en grados centesimales)'),
               const Text('• Ángulo inferior (en grados centesimales)'),
-              
+
               const SizedBox(height: 12),
-              
+
               const Text(
                 'La fórmula selecciona automáticamente el tipo de tangente según los valores angulares para obtener el resultado más preciso.',
                 textAlign: TextAlign.justify,
               ),
-              
+
               const SizedBox(height: 8),
               const Divider(),
               const SizedBox(height: 8),
-              
+
               const Text(
                 '💡 Toque la imagen para verla ampliada',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),

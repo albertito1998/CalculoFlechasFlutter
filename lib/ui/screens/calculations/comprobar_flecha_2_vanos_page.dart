@@ -5,11 +5,11 @@ import 'package:elecnorappflechas/theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
 
 /// Pantalla para comprobar la flecha real en dos vanos.
-/// 
+///
 /// Utiliza los ángulos en las grapas y en el cable del vano 2,
 /// las longitudes de ambos vanos y la flecha teórica del vano 2
 /// para determinar si el cable está correctamente tensado.
-/// 
+///
 /// **Resultado:**
 /// - Flecha real calculada en el vano 2
 /// - Diferencia respecto a la flecha teórica (cable alto/bajo)
@@ -17,14 +17,15 @@ class ComprobarFlecha2VanosPage extends StatefulWidget {
   const ComprobarFlecha2VanosPage({super.key});
 
   @override
-  State<ComprobarFlecha2VanosPage> createState() => _ComprobarFlecha2VanosPageState();
+  State<ComprobarFlecha2VanosPage> createState() =>
+      _ComprobarFlecha2VanosPageState();
 }
 
 class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
   // ========================================================================
   // CONTROLADORES DE TEXTO
   // ========================================================================
-  
+
   final TextEditingController _txtAngGrapa1 = TextEditingController();
   final TextEditingController _txtAngGrapa2 = TextEditingController();
   final TextEditingController _txtAngCableVano2 = TextEditingController();
@@ -35,7 +36,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
   // ========================================================================
   // VARIABLES DE ESTADO
   // ========================================================================
-  
+
   String _result = '';
   String _cableBajo = '';
   String _error = '';
@@ -55,7 +56,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
   // ========================================================================
   // BUILD
   // ========================================================================
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,7 +85,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Campos de entrada
             _buildTextField(
               label: 'Ángulo en grapa 1 (°)',
@@ -110,9 +111,9 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
               label: 'Flecha teórica del vano 2 (m)',
               controller: _txtFlechaVano2,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Botón calcular
             SizedBox(
               width: double.infinity,
@@ -121,9 +122,9 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
                 child: const Text('Calcular'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Botón limpiar
             SizedBox(
               width: double.infinity,
@@ -133,9 +134,9 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
                 label: const Text('Limpiar'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Resultado - Flecha Real
             if (_result.isNotEmpty)
               Card(
@@ -161,7 +162,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
                   ),
                 ),
               ),
-            
+
             // Resultado - Cable Alto/Bajo
             if (_cableBajo.isNotEmpty)
               Padding(
@@ -181,7 +182,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
                   ),
                 ),
               ),
-            
+
             // Mensaje de error
             if (_error.isNotEmpty)
               Padding(
@@ -214,7 +215,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
   // ========================================================================
   // WIDGETS AUXILIARES
   // ========================================================================
-  
+
   /// Construye un campo de texto numérico con estilo consistente.
   Widget _buildTextField({
     required String label,
@@ -237,9 +238,9 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
   // ========================================================================
   // LÓGICA DE CÁLCULO
   // ========================================================================
-  
+
   /// Calcula la flecha real en el vano 2 y determina si el cable está alto o bajo.
-  /// 
+  ///
   /// El algoritmo:
   /// 1. Calcula el parámetro H según los ángulos de las grapas
   /// 2. Calcula la longitud total (L)
@@ -262,7 +263,8 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
 
       // Validaciones
       if (J <= 0 || K <= 0 || F <= 0) {
-        setState(() => _error = 'Las longitudes y flecha deben ser mayores que cero.');
+        setState(() =>
+            _error = 'Las longitudes y flecha deben ser mayores que cero.');
         return;
       }
 
@@ -305,20 +307,24 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
             : 'Cable BAJO: ${rescable.toStringAsFixed(3)} m';
       });
     } on FormatException {
-      setState(() => _error = 'Por favor, introduzca valores numéricos válidos.');
+      setState(
+          () => _error = 'Por favor, introduzca valores numéricos válidos.');
     } catch (e) {
       setState(() => _error = 'Datos inválidos. Verifique los valores.');
     }
   }
 
   /// Calcula H usando la tangente tipo 1.
-  double _calculoH1(double J, double E, double C) => J * _operaciones.calculotang1(E, C);
+  double _calculoH1(double J, double E, double C) =>
+      J * _operaciones.calculotang1(E, C);
 
   /// Calcula H usando la tangente tipo 2.
-  double _calculoH2(double J, double E, double C) => J * _operaciones.calculotang2(E, C);
+  double _calculoH2(double J, double E, double C) =>
+      J * _operaciones.calculotang2(E, C);
 
   /// Calcula H usando la tangente tipo 3.
-  double _calculoH3(double J, double E, double C) => J * _operaciones.calculotang3(E, C);
+  double _calculoH3(double J, double E, double C) =>
+      J * _operaciones.calculotang3(E, C);
 
   /// Calcula la flecha real usando la tangente tipo 1.
   double _flechareal1(double G, double C, double L, double H) {
@@ -362,7 +368,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
   // ========================================================================
   // DIÁLOGOS
   // ========================================================================
-  
+
   /// Muestra el diálogo de ayuda con información sobre el cálculo.
   void _mostrarAyuda(BuildContext context) {
     showDialog(
@@ -379,7 +385,6 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               SizedBox(height: 8),
-              
               Text(
                 'Parámetros necesarios:',
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -388,9 +393,7 @@ class _ComprobarFlecha2VanosPageState extends State<ComprobarFlecha2VanosPage> {
               Text('• Ángulo en cable del vano 2 (° centesimales)'),
               Text('• Longitudes de vanos 1 y 2 (m)'),
               Text('• Flecha teórica del vano 2 (m)'),
-              
               SizedBox(height: 12),
-              
               Text(
                 'La fórmula calcula el parámetro H y luego la flecha real, para comprobar si el cable está '
                 'por encima o por debajo de lo esperado.',

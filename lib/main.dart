@@ -1,5 +1,5 @@
 /// Punto de entrada principal de la aplicación Elecnor Flechas
-/// 
+///
 /// Esta aplicación proporciona herramientas para el cálculo y comprobación
 /// de flechas en líneas eléctricas aéreas.
 library;
@@ -22,7 +22,7 @@ import 'ui/screens/menu/menu_page.dart';
 import 'ui/theme/app_theme.dart';
 
 /// Función principal de la aplicación
-/// 
+///
 /// Inicializa Firebase y configura la aplicación antes de ejecutarla.
 /// También establece las orientaciones permitidas (solo portrait).
 void main() async {
@@ -50,7 +50,7 @@ void main() async {
 }
 
 /// Widget raíz de la aplicación Elecnor
-/// 
+///
 /// Configura el tema, las rutas y la página inicial de la aplicación.
 /// Mantiene compatibilidad con tests
 class MyApp extends StatelessWidget {

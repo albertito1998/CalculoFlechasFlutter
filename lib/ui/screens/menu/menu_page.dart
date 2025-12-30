@@ -1,5 +1,5 @@
 /// Pantalla del menú principal de la aplicación
-/// 
+///
 /// Muestra todas las herramientas disponibles para el cálculo y
 /// comprobación de flechas en líneas eléctricas.
 library;
@@ -61,7 +61,7 @@ class MenuItem {
 }
 
 /// Página del menú principal
-/// 
+///
 /// Proporciona acceso a todas las funcionalidades de la aplicación
 /// relacionadas con el cálculo y comprobación de flechas.
 class MenuPage extends StatefulWidget {
@@ -179,7 +179,7 @@ class _MenuPageState extends State<MenuPage> {
   ) async {
     if (!didPop) {
       final shouldExit = await _showExitDialog();
-      
+
       if (shouldExit && mounted) {
         SystemNavigator.pop();
       }
@@ -306,7 +306,7 @@ class _MenuPageState extends State<MenuPage> {
 }
 
 /// Widget personalizado para los botones del menú
-/// 
+///
 /// Proporciona un estilo consistente para todos los botones del menú
 /// con soporte para iconos y diseño responsivo.
 class _MenuButton extends StatelessWidget {

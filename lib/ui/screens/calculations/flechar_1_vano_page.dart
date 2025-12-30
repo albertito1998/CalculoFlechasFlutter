@@ -5,10 +5,10 @@ import 'package:elecnorappflechas/theme.dart';
 import 'package:elecnorappflechas/utils/operaciones_matematicas.dart';
 
 /// Pantalla para calcular el ángulo necesario para flechar un vano.
-/// 
+///
 /// Utiliza la distancia del taquímetro, el ángulo en grapa, la longitud
 /// del vano y la flecha teórica para determinar el ángulo correcto de flechado.
-/// 
+///
 /// **Proceso:**
 /// 1. Calcula el parámetro S a partir de la flecha, distancia y longitud
 /// 2. Determina el ángulo mediante arctan
@@ -24,7 +24,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
   // ========================================================================
   // CONTROLADORES DE TEXTO
   // ========================================================================
-  
+
   final TextEditingController _distController = TextEditingController();
   final TextEditingController _angGrapaController = TextEditingController();
   final TextEditingController _longVanoController = TextEditingController();
@@ -33,7 +33,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
   // ========================================================================
   // VARIABLES DE ESTADO
   // ========================================================================
-  
+
   String _resultado = '';
   String _msgError = '';
   final _operaciones = const OperacionesMatematicas();
@@ -50,7 +50,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
   // ========================================================================
   // BUILD
   // ========================================================================
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +79,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
-            
+
             // Campos de entrada
             _buildTextField(
               label: 'Distancia taquímetro (m)',
@@ -97,9 +97,9 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
               label: 'Flecha teórica (m)',
               controller: _flechaTeorController,
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Botón calcular
             SizedBox(
               width: double.infinity,
@@ -108,9 +108,9 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
                 child: const Text('Calcular'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Botón limpiar
             SizedBox(
               width: double.infinity,
@@ -120,9 +120,9 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
                 label: const Text('Vaciar'),
               ),
             ),
-            
+
             const SizedBox(height: 16),
-            
+
             // Resultado
             if (_resultado.isNotEmpty)
               Card(
@@ -148,7 +148,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
                   ),
                 ),
               ),
-            
+
             // Mensaje de error
             if (_msgError.isNotEmpty)
               Padding(
@@ -181,7 +181,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
   // ========================================================================
   // WIDGETS AUXILIARES
   // ========================================================================
-  
+
   /// Construye un campo de texto numérico con estilo consistente.
   Widget _buildTextField({
     required String label,
@@ -204,9 +204,9 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
   // ========================================================================
   // LÓGICA DE CÁLCULO
   // ========================================================================
-  
+
   /// Calcula el ángulo necesario para flechar un vano.
-  /// 
+  ///
   /// El algoritmo:
   /// 1. Valida que todos los campos tengan valores
   /// 2. Calcula el parámetro S usando la fórmula: S = ((√F × 2) - √H)² / V
@@ -241,7 +241,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
 
       // Cálculo del parámetro S
       final double S = _calculoS(F, H, V);
-      
+
       // Cálculo del ángulo
       double ang = _calculoArcTan(G, S);
 
@@ -254,7 +254,8 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
         _resultado = '${ang.toStringAsFixed(3)} °';
       });
     } on FormatException {
-      setState(() => _msgError = 'Por favor, introduzca valores numéricos válidos.');
+      setState(
+          () => _msgError = 'Por favor, introduzca valores numéricos válidos.');
     } catch (e) {
       setState(() => _msgError = 'Error en el cálculo. Revise los datos.');
     }
@@ -299,7 +300,7 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
   // ========================================================================
   // DIÁLOGOS
   // ========================================================================
-  
+
   /// Muestra el diálogo de ayuda con información sobre el cálculo.
   void _mostrarAyuda(BuildContext context) {
     showDialog(
@@ -324,13 +325,13 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               const Text(
                 'Esta herramienta calcula el ángulo necesario para flechar correctamente un vano.',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
-              
+
               const Text(
                 'Parámetros necesarios:',
                 style: TextStyle(fontWeight: FontWeight.w600),
@@ -339,18 +340,18 @@ class _Flechar1VanoPageState extends State<Flechar1VanoPage> {
               const Text('• Ángulo en grapa (en grados centesimales)'),
               const Text('• Longitud del vano (en metros)'),
               const Text('• Flecha teórica (en metros)'),
-              
+
               const SizedBox(height: 12),
-              
+
               const Text(
                 'El cálculo reproduce exactamente la lógica de la aplicación Android original.',
                 textAlign: TextAlign.justify,
               ),
-              
+
               const SizedBox(height: 8),
               const Divider(),
               const SizedBox(height: 8),
-              
+
               const Text(
                 '💡 Toque la imagen para verla ampliada',
                 style: TextStyle(fontSize: 12, fontStyle: FontStyle.italic),

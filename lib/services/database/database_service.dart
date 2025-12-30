@@ -1,5 +1,5 @@
 /// Servicio de base de datos Firestore
-/// 
+///
 /// Proporciona acceso centralizado a Cloud Firestore para operaciones CRUD
 /// (Create, Read, Update, Delete) en la base de datos de la aplicación.
 library;
@@ -7,21 +7,21 @@ library;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 /// Servicio para interactuar con Cloud Firestore
-/// 
+///
 /// Esta clase proporciona métodos para realizar operaciones comunes
 /// en la base de datos Firestore de Firebase.
-/// 
+///
 /// Ejemplo de uso:
 /// ```dart
 /// final dbService = DatabaseService();
-/// 
+///
 /// // Crear un documento
 /// await dbService.createDocument(
 ///   collection: 'users',
 ///   documentId: 'user123',
 ///   data: {'name': 'Juan', 'email': 'juan@example.com'},
 /// );
-/// 
+///
 /// // Leer un documento
 /// final userData = await dbService.getDocument(
 ///   collection: 'users',
@@ -41,11 +41,11 @@ class DatabaseService {
   // ==================== Operaciones CRUD ====================
 
   /// Crea un nuevo documento en una colección
-  /// 
+  ///
   /// [collection] Nombre de la colección donde crear el documento
   /// [documentId] ID del documento (opcional, se genera automáticamente si no se proporciona)
   /// [data] Datos del documento como mapa
-  /// 
+  ///
   /// Retorna el ID del documento creado
   Future<String> createDocument({
     required String collection,
@@ -75,17 +75,18 @@ class DatabaseService {
   }
 
   /// Obtiene un documento por su ID
-  /// 
+  ///
   /// [collection] Nombre de la colección
   /// [documentId] ID del documento a obtener
-  /// 
+  ///
   /// Retorna los datos del documento o null si no existe
   Future<Map<String, dynamic>?> getDocument({
     required String collection,
     required String documentId,
   }) async {
     try {
-      final docSnapshot = await _db.collection(collection).doc(documentId).get();
+      final docSnapshot =
+          await _db.collection(collection).doc(documentId).get();
 
       if (docSnapshot.exists) {
         return docSnapshot.data();
@@ -97,7 +98,7 @@ class DatabaseService {
   }
 
   /// Actualiza un documento existente
-  /// 
+  ///
   /// [collection] Nombre de la colección
   /// [documentId] ID del documento a actualizar
   /// [data] Datos a actualizar
@@ -121,7 +122,10 @@ class DatabaseService {
             .doc(documentId)
             .set(dataWithTimestamp, SetOptions(merge: true));
       } else {
-        await _db.collection(collection).doc(documentId).update(dataWithTimestamp);
+        await _db
+            .collection(collection)
+            .doc(documentId)
+            .update(dataWithTimestamp);
       }
     } catch (e) {
       throw DatabaseException('Error al actualizar documento: $e');
@@ -129,7 +133,7 @@ class DatabaseService {
   }
 
   /// Elimina un documento
-  /// 
+  ///
   /// [collection] Nombre de la colección
   /// [documentId] ID del documento a eliminar
   Future<void> deleteDocument({
@@ -146,12 +150,12 @@ class DatabaseService {
   // ==================== Consultas ====================
 
   /// Obtiene todos los documentos de una colección
-  /// 
+  ///
   /// [collection] Nombre de la colección
   /// [orderBy] Campo por el que ordenar (opcional)
   /// [descending] Si es true, ordena de forma descendente
   /// [limit] Número máximo de documentos a obtener
-  /// 
+  ///
   /// Retorna una lista de mapas con los datos de cada documento
   Future<List<Map<String, dynamic>>> getCollection({
     required String collection,
@@ -185,7 +189,7 @@ class DatabaseService {
   }
 
   /// Consulta documentos con una condición
-  /// 
+  ///
   /// [collection] Nombre de la colección
   /// [field] Campo a filtrar
   /// [value] Valor del campo
@@ -242,14 +246,18 @@ class DatabaseService {
   // ==================== Streams (para datos en tiempo real) ====================
 
   /// Obtiene un stream de un documento para actualizaciones en tiempo real
-  /// 
+  ///
   /// [collection] Nombre de la colección
   /// [documentId] ID del documento
   Stream<Map<String, dynamic>?> streamDocument({
     required String collection,
     required String documentId,
   }) {
-    return _db.collection(collection).doc(documentId).snapshots().map((snapshot) {
+    return _db
+        .collection(collection)
+        .doc(documentId)
+        .snapshots()
+        .map((snapshot) {
       if (snapshot.exists) {
         return snapshot.data();
       }
@@ -258,7 +266,7 @@ class DatabaseService {
   }
 
   /// Obtiene un stream de una colección para actualizaciones en tiempo real
-  /// 
+  ///
   /// [collection] Nombre de la colección
   /// [orderBy] Campo por el que ordenar (opcional)
   /// [descending] Si es true, ordena de forma descendente

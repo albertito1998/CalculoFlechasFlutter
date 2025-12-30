@@ -1,5 +1,5 @@
 /// Validador de correos electrónicos
-/// 
+///
 /// Valida que los correos electrónicos cumplan con el formato corporativo
 /// de Elecnor utilizando expresiones regulares desde variables de entorno.
 library;
@@ -16,11 +16,11 @@ class EmailValidator {
   EmailValidator._();
 
   /// Valida un correo electrónico corporativo de Elecnor
-  /// 
+  ///
   /// Verifica que:
   /// - El campo no esté vacío
   /// - El correo cumpla con el formato requerido (según regex en .env)
-  /// 
+  ///
   /// Retorna null si es válido, o un mensaje de error si no lo es.
   static String? validate(String? value) {
     if (value == null || value.isEmpty) {
@@ -37,9 +37,9 @@ class EmailValidator {
   }
 
   /// Verifica si el email tiene el formato correcto según la regex configurada
-  /// 
+  ///
   /// [email] El correo electrónico a validar
-  /// 
+  ///
   /// Retorna true si cumple con el formato, false en caso contrario.
   static bool _isValidEmailFormat(String email) {
     try {
@@ -60,7 +60,7 @@ class EmailValidator {
   }
 
   /// Validación básica de email como respaldo
-  /// 
+  ///
   /// Verifica el formato general de un email y que termine en @elecnor.
   static bool _isValidBasicEmail(String email) {
     // Expresión regular básica para emails
@@ -68,7 +68,7 @@ class EmailValidator {
       r'^[\w\.-]+@elecnor\.(com|es|[a-z]{2,})$',
       caseSensitive: false,
     );
-    
+
     return basicEmailRegex.hasMatch(email.trim());
   }
 
@@ -90,18 +90,18 @@ class EmailValidator {
 }
 
 /// Validador de contraseñas
-/// 
+///
 /// Valida que las contraseñas cumplan con los requisitos de seguridad.
 class PasswordValidator {
   // Constructor privado
   PasswordValidator._();
 
   /// Valida una contraseña
-  /// 
+  ///
   /// Verifica que:
   /// - El campo no esté vacío
   /// - La contraseña tenga al menos 6 caracteres (configurable)
-  /// 
+  ///
   /// Retorna null si es válida, o un mensaje de error si no lo es.
   static String? validate(String? value, {int minLength = 6}) {
     if (value == null || value.isEmpty) {
@@ -119,7 +119,7 @@ class PasswordValidator {
   }
 
   /// Valida una contraseña fuerte
-  /// 
+  ///
   /// Verifica que:
   /// - Tenga al menos 8 caracteres
   /// - Contenga al menos una letra mayúscula
@@ -161,7 +161,8 @@ class PasswordValidator {
 
     // Verifica caracteres especiales
     if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
-      final message = 'La contraseña debe contener al menos un carácter especial';
+      final message =
+          'La contraseña debe contener al menos un carácter especial';
       _showToastMessage(message);
       return message;
     }
@@ -187,7 +188,7 @@ class PasswordValidator {
 }
 
 /// Utilidad para mostrar mensajes toast
-/// 
+///
 /// Proporciona un método centralizado para mostrar mensajes
 /// temporales al usuario.
 class ToastHelper {
